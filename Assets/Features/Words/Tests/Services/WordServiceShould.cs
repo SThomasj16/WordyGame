@@ -1,4 +1,5 @@
-﻿using Features.Words.Scripts.Domain;
+﻿using System.Collections.Generic;
+using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Infrastructure;
 using Features.Words.Scripts.Services;
 using Features.Words.Tests.Domain;
@@ -11,13 +12,14 @@ namespace Features.Words.Tests.Services
     {
         private WordService _wordService;
         private IWordsRepository _wordsRepository;
-        private const int MaxAmountOfCharacters = 3;
-
+        private IUsedWordsRepository _usedWordsRepository;
+        
         [SetUp]
         public void Setup()
         {
             _wordsRepository = Substitute.For<IWordsRepository>();
-            _wordService = new WordService(_wordsRepository);
+            _usedWordsRepository = Substitute.For<IUsedWordsRepository>();
+            _wordService = new WordService(_wordsRepository, _usedWordsRepository);
         }
 
         [TestCase(WordAmountOfCharacters.Three)]
@@ -28,16 +30,30 @@ namespace Features.Words.Tests.Services
         public void ReturnCorrectAmountOfCharactersForEveryWord(WordAmountOfCharacters amountOfCharacters)
         {
             GivenAListOfWords();
-            var results = WhenReturningWords(amountOfCharacters);
-            ThenAllWordsHaveExpectedAmountOfCharacters((int)amountOfCharacters, results);
+            GivenAEmptyUsedWordsRepository();
+            var result = WhenReturningAWordWith(amountOfCharacters);
+            ThenAllWordsHaveExpectedAmountOfCharacters((int)amountOfCharacters, result);
         }
-
+        
+        [Test]
+        public void MarkReturningWordAsUsed()
+        {
+            GivenAListOfWords();
+            GivenAEmptyUsedWordsRepository();
+            var word = WhenReturningAWordWith(WordAmountOfCharacters.Three);
+            ThenMarkWord(word);
+        }
+        
+        private void GivenAEmptyUsedWordsRepository()
+        {
+            _usedWordsRepository.Get().Returns(new List<Word>());
+        }
         private void GivenAListOfWords()
         {
             _wordsRepository.Get().Returns(WordMother.AListOfWords());
         }
 
-        private Word WhenReturningWords(WordAmountOfCharacters amountOfCharacters)
+        private Word WhenReturningAWordWith(WordAmountOfCharacters amountOfCharacters)
         {
             return _wordService.GetWord(amountOfCharacters);
         }
@@ -45,6 +61,11 @@ namespace Features.Words.Tests.Services
         private void ThenAllWordsHaveExpectedAmountOfCharacters(int amountOfCharacters, Word result)
         {
             Assert.True(result.AmountOfCharacters <= amountOfCharacters);
+        }
+        
+        private void ThenMarkWord(Word word)
+        {
+            _usedWordsRepository.Received(1).Mark(word);
         }
     }
 }
