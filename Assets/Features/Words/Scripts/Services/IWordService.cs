@@ -5,6 +5,5 @@ namespace Features.Words.Scripts.Services
     public interface IWordService
     {
         Word GetWord(WordAmountOfCharacters amountOfCharacters);
-        void SetAsUsed(Word word);
     }
 }

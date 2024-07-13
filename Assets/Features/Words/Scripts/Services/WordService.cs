@@ -16,11 +16,6 @@ namespace Features.Words.Scripts.Services
             _usedWordsRepository = usedWordsRepository;
         }
 
-        public void SetAsUsed(Word word)
-        {
-            _usedWordsRepository.Mark(word);
-        }
-
         public Word GetWord(WordAmountOfCharacters amountOfCharacters)
         {
             var word = GetNewWord(amountOfCharacters);
