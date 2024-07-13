@@ -6,5 +6,6 @@ namespace Features.Words.Scripts.Infrastructure
     public interface IWordsRepository
     {
         List<Word> Get();
+        void Set(List<Word> words);
     }
 }

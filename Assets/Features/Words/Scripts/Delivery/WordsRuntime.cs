@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Features.Runtime.Scripts;
 using Features.Words.Scripts.Domain;
+using Features.Words.Scripts.Providers;
 using Newtonsoft.Json;
 using UniRx;
 using UnityEngine;
@@ -22,8 +25,16 @@ namespace Features.Words.Scripts.Delivery
         {
             return Observable.ReturnUnit()
                 .Select(_ => LoadWordsJson())
-                .Do(dto => Debug.Log(dto.Animals.threeLetterWords[0]))
+                .Do(SaveToRepository)
                 .AsUnitObservable();
+        }
+
+        private void SaveToRepository(WordsJsonDto dto)
+        {
+            var listOfWords = dto.Animals.Select(animal => new Word(animal, WordTheme.Animal)).ToList();
+            listOfWords.AddRange(dto.Food.Select(food => new Word(food, WordTheme.Food)));
+            listOfWords.AddRange(dto.Nature.Select(nature => new Word(nature, WordTheme.Nature)));
+            WordsProvider.GetWordsRepository().Set(listOfWords);
         }
 
         private WordsJsonDto LoadWordsJson()

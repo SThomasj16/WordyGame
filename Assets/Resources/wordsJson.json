@@ -1,25 +1,20 @@
 {
-  "Nature": {
-    "3": ["Sun", "Sea", "Sky", "Oak", "Bee", "Fog", "Elm", "Ash", "Ivy", "Mud"],
-    "4": ["Tree", "Lake", "Bird", "Rain", "Wind", "Pond", "Hill", "Moss", "Fern", "Pine"],
-    "5": ["Beach", "Cloud", "Plant", "Ocean", "Stone", "Grass", "Marsh", "Flora", "Earth", "Forest"],
-    "6": ["Jungle", "Stream", "Summit", "Wetland", "Mountain", "Sunrise", "Rainbow", "Glacier", "Habitat", "Butterfly"],
-    "7": ["Elephant", "Wildlife", "Ecosystem", "Landscape", "Adventure", "Wilderness", "Sunshine", "Spinach", "Chocolate", "Croissant"],
-    "8": ["Internet", "Security", "Keyboard", "Software", "Hardware", "Wireless", "Bluetooth", "Algorithm", "Digestion", "Windbreaker"]
-  },
-  "Food": {
-    "3": ["Egg", "Jam", "Tea", "Nut", "Pie", "Ham", "Oil", "Fig", "Bun", "Cod"],
-    "4": ["Cake", "Beef", "Soup", "Fish", "Tofu", "Lime", "Plum", "Pita", "Kale", "Rice"],
-    "5": ["Salad", "Apple", "Pasta", "Pizza", "Bacon", "Onion", "Melon", "Peach", "Curry", "Bread"],
-    "6": ["Cheese", "Tomato", "Yogurt", "Sushi", "Ginger", "Carrot", "Pickle", "Papaya", "Banana", "Broccoli"],
-    "7": ["Blueberry", "Mushroom", "Spinach", "Artichoke", "Pineapple", "Cucumber", "Platypus", "Lemur", "Sloth", "Hedgehog"],
-    "8": ["Chocolate", "Raspberry", "Watermelon", "Butterscotch", "Cauliflower", "Blackberry", "Strawberry", "Pineapple", "Croissant", "Porcupine"]
-  },
-  "Animals": {
-    "3": ["Cat", "Dog", "Fox", "Bat", "Owl", "Bee", "Pig", "Rat", "Ant", "Elk"],
-    "4": ["Lion", "Bear", "Wolf", "Deer", "Swan", "Frog", "Duck", "Crow", "Hawk", "Mole"],
-    "5": ["Tiger", "Horse", "Eagle", "Zebra", "Koala", "Panda", "Lemur", "Gecko", "Sloth", "Otter"],
-    "6": ["Jaguar", "Dolphin", "Ocelot", "Parrot", "Cheetah", "Penguin", "Walrus", "Hyena", "Kangaroo", "Octopus"],
-    "7": ["Elephant", "Platypus", "Chimpanzee", "Alligator", "Flamingo", "Hedgehog", "Rhinoceros", "Seahorse", "Armadillo", "Woodpecker"],
-    "8": ["Crocodile", "Kangaroo", "Porcupine", "Jellyfish", "Butterfly", "Tarantula", "Chameleon", "Starfish", "Komodo", "Ostrich"]
-  }}
+  "Nature": ["Sun", "Sea", "Sky", "Oak", "Bee", "Fog", "Elm", "Ash", "Ivy", "Mud",
+    "Tree", "Lake", "Bird", "Rain", "Wind", "Pond", "Hill", "Moss", "Fern", "Pine",
+    "Beach", "Cloud", "Plant", "Ocean", "Stone", "Grass", "Marsh", "Flora", "Earth", "Forest",
+    "Jungle", "Stream", "Summit", "Wetland", "Mountain", "Sunrise", "Rainbow", "Glacier", "Habitat", "Butterfly",
+    "Elephant", "Wildlife", "Ecosystem", "Landscape", "Adventure", "Wilderness", "Sunshine", "Spinach", "Chocolate", "Croissant",
+    "Internet", "Security", "Keyboard", "Software", "Hardware", "Wireless", "Bluetooth", "Algorithm", "Digestion", "Windbreaker"],
+  "Food": ["Egg", "Jam", "Tea", "Nut", "Pie", "Ham", "Oil", "Fig", "Bun", "Cod",
+    "Cake", "Beef", "Soup", "Fish", "Tofu", "Lime", "Plum", "Pita", "Kale", "Rice",
+    "Salad", "Apple", "Pasta", "Pizza", "Bacon", "Onion", "Melon", "Peach", "Curry", "Bread",
+    "Cheese", "Tomato", "Yogurt", "Sushi", "Ginger", "Carrot", "Pickle", "Papaya", "Banana", "Broccoli",
+    "Blueberry", "Mushroom", "Spinach", "Artichoke", "Pineapple", "Cucumber", "Platypus", "Lemur", "Sloth", "Hedgehog",
+    "Chocolate", "Raspberry", "Watermelon", "Butterscotch", "Cauliflower", "Blackberry", "Strawberry", "Pineapple", "Croissant", "Porcupine"],
+  "Animals": ["Cat", "Dog", "Fox", "Bat", "Owl", "Bee", "Pig", "Rat", "Ant", "Elk",
+    "Lion", "Bear", "Wolf", "Deer", "Swan", "Frog", "Duck", "Crow", "Hawk", "Mole",
+    "Tiger", "Horse", "Eagle", "Zebra", "Koala", "Panda", "Lemur", "Gecko", "Sloth", "Otter",
+    "Jaguar", "Dolphin", "Ocelot", "Parrot", "Cheetah", "Penguin", "Walrus", "Hyena", "Kangaroo", "Octopus",
+    "Elephant", "Platypus", "Chimpanzee", "Alligator", "Flamingo", "Hedgehog", "Rhinoceros", "Seahorse", "Armadillo", "Woodpecker",
+    "Crocodile", "Kangaroo", "Porcupine", "Jellyfish", "Butterfly", "Tarantula", "Chameleon", "Starfish", "Komodo", "Ostrich"]
+}

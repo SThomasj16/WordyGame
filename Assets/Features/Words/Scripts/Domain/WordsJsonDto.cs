@@ -1,11 +1,11 @@
-﻿using Features.Words.Scripts.Delivery;
+﻿using System.Collections.Generic;
 
 namespace Features.Words.Scripts.Domain
 {
     public class WordsJsonDto
     {
-        public WordsByLetterCount Nature;
-        public WordsByLetterCount Food;
-        public WordsByLetterCount Animals;
+        public List<string> Nature;
+        public List<string> Food;
+        public List<string> Animals;
     }
 }
