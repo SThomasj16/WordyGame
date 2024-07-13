@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Infrastructure;
 using Features.Words.Scripts.Services;
@@ -28,24 +29,47 @@ namespace Features.Words.Tests.Services
         [TestCase(5)]
         public void ReturnCorrectAmountOfWords(int amountOfWords)
         {
-            GivenAListOfWords(amountOfWords);
-            var amount = WhenReturningWords();
+            GivenAListOfWordsWith(amountOfWords);
+            var amount = WhenReturningWords(MaxAmountOfCharacters);
             ThenExpectedAmountEqualsResult(amountOfWords, amount.Count);
         }
 
-        private static void ThenExpectedAmountEqualsResult(int amountOfWords, int amount)
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        public void ReturnCorrectAmountOfCharactersForEveryWord(int amountOfCharacters)
         {
-            Assert.AreEqual(amountOfWords, amount);
+            GivenAListOfWords();
+            var results = WhenReturningWords(amountOfCharacters);
+            ThenAllWordsHaveExpectedAmountOfCharacters(amountOfCharacters, results);
         }
 
-        private void GivenAListOfWords(int amountOfWords)
+        private void GivenAListOfWords()
+        {
+            _wordsRepository.Get().Returns(WordMother.AListOfWords());
+        }
+
+        private void GivenAListOfWordsWith(int amountOfWords)
         {
             _wordsRepository.Get().Returns(WordMother.AListOfSpecificAmountOfWordsWithMaxAmountOfCharacters(MaxAmountOfCharacters,amountOfWords));
         }
         
-        private List<Word> WhenReturningWords()
+        private List<Word> WhenReturningWords(int amountOfCharacters)
         {
-            return _wordService.GetWords(MaxAmountOfCharacters);
+            return _wordService.GetWords(amountOfCharacters);
+        }
+        
+        private static void ThenExpectedAmountEqualsResult(int amountOfWords, int amount)
+        {
+            Assert.AreEqual(amountOfWords, amount);
+        }
+        
+        private void ThenAllWordsHaveExpectedAmountOfCharacters(int amountOfCharacters, List<Word> results)
+        {
+            foreach (var result in results)
+            {
+                Assert.True(result.AmountOfCharacters <= amountOfCharacters);
+            }
         }
     }
 }

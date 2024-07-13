@@ -14,6 +14,6 @@ namespace Features.Words.Scripts.Services
         }
 
         public List<Word> GetWords(int maxAmountOfCharacters) => 
-            _wordsRepository.Get().FindAll(word => word.AmountOfCharacters >= maxAmountOfCharacters);
+            _wordsRepository.Get().FindAll(word => word.AmountOfCharacters <= maxAmountOfCharacters);
     }
 }
