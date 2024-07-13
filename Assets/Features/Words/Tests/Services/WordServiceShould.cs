@@ -44,6 +44,29 @@ namespace Features.Words.Tests.Services
             ThenMarkWord(word);
         }
         
+        [Test]
+        public void ClearUsedWordRepositoryWhenWordRepositoryIsEmpty()
+        {
+            GivenAListOfWords();
+            GivenAFullUsedWordsRepository();
+            WhenReturningAWordWith(WordAmountOfCharacters.Three);
+            ThenClearUsedWordsRepository();
+        }
+        
+        [Test]
+        public void GetNewWordWhenWordWhenUsedRepositoryIsFull()
+        {
+            GivenAListOfWords();
+            GivenAFullUsedWordsRepository();
+            WhenReturningAWordWith(WordAmountOfCharacters.Three);
+            ThenWordWasFetchTwice();
+        }
+
+        private void GivenAFullUsedWordsRepository()
+        {
+            _usedWordsRepository.Get().Returns(WordMother.AListOfWords());
+        }
+
         private void GivenAEmptyUsedWordsRepository()
         {
             _usedWordsRepository.Get().Returns(new List<Word>());
@@ -53,10 +76,8 @@ namespace Features.Words.Tests.Services
             _wordsRepository.Get().Returns(WordMother.AListOfWords());
         }
 
-        private Word WhenReturningAWordWith(WordAmountOfCharacters amountOfCharacters)
-        {
-            return _wordService.GetWord(amountOfCharacters);
-        }
+        private Word WhenReturningAWordWith(WordAmountOfCharacters amountOfCharacters) => 
+            _wordService.GetWord(amountOfCharacters);
 
         private void ThenAllWordsHaveExpectedAmountOfCharacters(int amountOfCharacters, Word result)
         {
@@ -66,6 +87,16 @@ namespace Features.Words.Tests.Services
         private void ThenMarkWord(Word word)
         {
             _usedWordsRepository.Received(1).Mark(word);
+        }
+        
+        private void ThenClearUsedWordsRepository()
+        {
+            _usedWordsRepository.Received(1).Clear();
+        }
+        
+        private void ThenWordWasFetchTwice()
+        {
+            _wordsRepository.Received(2).Get();
         }
     }
 }

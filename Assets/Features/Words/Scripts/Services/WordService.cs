@@ -23,14 +23,25 @@ namespace Features.Words.Scripts.Services
 
         public Word GetWord(WordAmountOfCharacters amountOfCharacters)
         {
-            var word = _wordsRepository.Get()
-                .Where(FilterUsedWords())
-                .FirstOrDefault(IsWordWithCorrectAmountOfCharacters(amountOfCharacters));
+            var word = GetNewWord(amountOfCharacters);
             
+            if (word.Value == null)
+            {
+                _usedWordsRepository.Clear();
+                word = GetNewWord(amountOfCharacters);
+            }
+
             _usedWordsRepository.Mark(word);
             return word;
         }
-        
+
+        private Word GetNewWord(WordAmountOfCharacters amountOfCharacters)
+        {
+            return _wordsRepository.Get()
+                .Where(FilterUsedWords())
+                .FirstOrDefault(IsWordWithCorrectAmountOfCharacters(amountOfCharacters));
+        }
+
         private static Func<Word, bool> IsWordWithCorrectAmountOfCharacters(WordAmountOfCharacters amountOfCharacters) => 
             word => word.AmountOfCharacters == (int)amountOfCharacters;
 
