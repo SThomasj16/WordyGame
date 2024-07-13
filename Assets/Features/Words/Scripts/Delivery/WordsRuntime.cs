@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Features.Runtime.Scripts;
 using Features.Words.Scripts.Domain;
@@ -31,7 +30,7 @@ namespace Features.Words.Scripts.Delivery
 
         private void SaveToRepository(WordsJsonDto dto)
         {
-            var listOfWords = dto.Animals.Select(animal => new Word(animal, WordTheme.Animal)).ToList();
+            var listOfWords = dto.Animals.Select(animal => new Word(animal, WordTheme.Animals)).ToList();
             listOfWords.AddRange(dto.Food.Select(food => new Word(food, WordTheme.Food)));
             listOfWords.AddRange(dto.Nature.Select(nature => new Word(nature, WordTheme.Nature)));
             WordsProvider.GetWordsRepository().Set(listOfWords);

@@ -5,7 +5,7 @@
         Nature,
         Food,
         Color,
-        Animal,
+        Animals,
         Object,
         Feeling,
         Weather,

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Features.Words.Scripts.Domain;
+﻿using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Infrastructure;
 using Features.Words.Scripts.Services;
 using Features.Words.Tests.Domain;
@@ -22,26 +20,16 @@ namespace Features.Words.Tests.Services
             _wordService = new WordService(_wordsRepository);
         }
 
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        public void ReturnCorrectAmountOfWords(int amountOfWords)
-        {
-            GivenAListOfWordsWith(amountOfWords);
-            var amount = WhenReturningWords(MaxAmountOfCharacters);
-            ThenExpectedAmountEqualsResult(amountOfWords, amount.Count);
-        }
-
-        [TestCase(3)]
-        [TestCase(4)]
-        [TestCase(5)]
-        public void ReturnCorrectAmountOfCharactersForEveryWord(int amountOfCharacters)
+        [TestCase(WordAmountOfCharacters.Three)]
+        [TestCase(WordAmountOfCharacters.Four)]
+        [TestCase(WordAmountOfCharacters.Five)]
+        [TestCase(WordAmountOfCharacters.Six)]
+        [TestCase(WordAmountOfCharacters.Seven)]
+        public void ReturnCorrectAmountOfCharactersForEveryWord(WordAmountOfCharacters amountOfCharacters)
         {
             GivenAListOfWords();
             var results = WhenReturningWords(amountOfCharacters);
-            ThenAllWordsHaveExpectedAmountOfCharacters(amountOfCharacters, results);
+            ThenAllWordsHaveExpectedAmountOfCharacters((int)amountOfCharacters, results);
         }
 
         private void GivenAListOfWords()
@@ -49,27 +37,14 @@ namespace Features.Words.Tests.Services
             _wordsRepository.Get().Returns(WordMother.AListOfWords());
         }
 
-        private void GivenAListOfWordsWith(int amountOfWords)
+        private Word WhenReturningWords(WordAmountOfCharacters amountOfCharacters)
         {
-            _wordsRepository.Get().Returns(WordMother.AListOfSpecificAmountOfWordsWithMaxAmountOfCharacters(MaxAmountOfCharacters,amountOfWords));
+            return _wordService.GetWord(amountOfCharacters);
         }
-        
-        private List<Word> WhenReturningWords(int amountOfCharacters)
+
+        private void ThenAllWordsHaveExpectedAmountOfCharacters(int amountOfCharacters, Word result)
         {
-            return _wordService.GetWords(amountOfCharacters);
-        }
-        
-        private static void ThenExpectedAmountEqualsResult(int amountOfWords, int amount)
-        {
-            Assert.AreEqual(amountOfWords, amount);
-        }
-        
-        private void ThenAllWordsHaveExpectedAmountOfCharacters(int amountOfCharacters, List<Word> results)
-        {
-            foreach (var result in results)
-            {
-                Assert.True(result.AmountOfCharacters <= amountOfCharacters);
-            }
+            Assert.True(result.AmountOfCharacters <= amountOfCharacters);
         }
     }
 }

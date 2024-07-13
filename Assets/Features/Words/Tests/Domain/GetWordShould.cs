@@ -21,19 +21,19 @@ namespace Features.Words.Tests.Domain
         [TestCase(3)]
         [TestCase(4)]
         [TestCase(5)]
-        public void ReturnWordWithSpecificAmountOfCharacters(int maxAmountOfCharacters)
+        public void ReturnWordWithSpecificAmountOfCharacters(WordAmountOfCharacters amountOfCharacters)
         {
-            GivenAListOfWords(maxAmountOfCharacters);
-            var selectedWord = WhenReturningAWord(maxAmountOfCharacters);
-            ThenReturningWordHasExpectedAmountOfCharacters(maxAmountOfCharacters, selectedWord);
+            GivenAListOfWords(amountOfCharacters);
+            var selectedWord = WhenReturningAWord(amountOfCharacters);
+            ThenReturningWordHasExpectedAmountOfCharacters((int)amountOfCharacters, selectedWord);
         }
         
-        private void GivenAListOfWords(int maxAmountOfCharacters)
+        private void GivenAListOfWords(WordAmountOfCharacters amountOfCharacters)
         {
-            _wordService.GetWords(maxAmountOfCharacters)
-                .Returns(WordMother.AListOfAllWordsWithMaxAmountOfCharacters(maxAmountOfCharacters));
+            _wordService.GetWord(amountOfCharacters)
+                .Returns(WordMother.AWordWithAmountOfCharacters(amountOfCharacters));
         }
-        private Word WhenReturningAWord(int maxAmountOfCharacters) => _action.Execute(maxAmountOfCharacters);
+        private Word WhenReturningAWord(WordAmountOfCharacters amountOfCharacters) => _action.Execute(amountOfCharacters);
         private static void ThenReturningWordHasExpectedAmountOfCharacters(int maxAmountOfCharacters, Word selectedWord)
         {
             Assert.True(selectedWord.AmountOfCharacters <= maxAmountOfCharacters);

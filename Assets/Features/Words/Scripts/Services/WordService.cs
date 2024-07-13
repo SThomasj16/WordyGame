@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Infrastructure;
 
@@ -13,7 +13,8 @@ namespace Features.Words.Scripts.Services
             _wordsRepository = wordsRepository;
         }
 
-        public List<Word> GetWords(int maxAmountOfCharacters) => 
-            _wordsRepository.Get().FindAll(word => word.AmountOfCharacters <= maxAmountOfCharacters);
+        public Word GetWord(WordAmountOfCharacters amountOfCharacters) => 
+            _wordsRepository.Get().First(word => word.AmountOfCharacters == (int)amountOfCharacters);
     }
+
 }

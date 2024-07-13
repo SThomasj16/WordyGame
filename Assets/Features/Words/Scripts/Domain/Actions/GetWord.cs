@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Features.Words.Scripts.Services;
+﻿using Features.Words.Scripts.Services;
 
 namespace Features.Words.Scripts.Domain.Actions
 {
@@ -12,7 +11,7 @@ namespace Features.Words.Scripts.Domain.Actions
             _wordService = wordService;
         }
 
-        public Word Execute(int maxAmountOfCharacters) => 
-            _wordService.GetWords(maxAmountOfCharacters).First();
+        public Word Execute(WordAmountOfCharacters amountOfCharacters) => 
+            _wordService.GetWord(amountOfCharacters);
     }
 }
