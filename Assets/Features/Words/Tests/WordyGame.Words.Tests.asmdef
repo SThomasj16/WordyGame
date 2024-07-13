@@ -1,7 +1,10 @@
 {
     "name": "WordyGame.Words.Tests",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:eef946156f447b146838de5b042cec7b",
+        "GUID:9a88817da2cdeb94388ab1c4165583ac"
+    ],
     "includePlatforms": [
         "Editor"
     ],
