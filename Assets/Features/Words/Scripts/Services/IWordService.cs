@@ -3,8 +3,8 @@ using Features.Words.Scripts.Domain;
 
 namespace Features.Words.Scripts.Services
 {
-    public interface IGetWordService
+    public interface IWordService
     {
-        List<Word> GetWords(int maxAmountOfCharacters, int amountOfWords);
+        List<Word> GetWords(int maxAmountOfCharacters);
     }
 }
