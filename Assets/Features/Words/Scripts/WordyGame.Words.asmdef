@@ -1,3 +1,17 @@
 {
-	"name": "WordyGame.Words"
+    "name": "WordyGame.Words",
+    "rootNamespace": "",
+    "references": [
+        "GUID:35b1586a7b3fdd34e96b1c25872e7df2",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
