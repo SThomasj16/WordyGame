@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Features.Board.Scripts.Presentation;
 using UniRx;
 using UnityEngine;
@@ -22,11 +23,17 @@ namespace Features.Board.Scripts.Delivery
             _onAppear.OnNext(Unit.Default);
         }
 
-        public IObservable<Unit> OnViewAppear() => _onAppear;
-        public void InstanceLetterItems(int amount)
+        public void InstanceLetterItems(List<char> amount)
         {
-            for (var i = 0; i < amount; i++) 
-                Instantiate(letterItemPrefab, lettersContainer);
+            for (var i = 0; i < amount.Count; i++)
+            {
+               var letterItem = Instantiate(letterItemPrefab, lettersContainer).GetComponent<LetterItemView>();
+               letterItem.Set(amount[i]);
+            }
+
         }
+        
+        public IObservable<Unit> OnViewAppear() => _onAppear;
+
     }
 }

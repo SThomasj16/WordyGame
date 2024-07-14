@@ -9,5 +9,8 @@ namespace Features.Board.Scripts.Providers
         public static BoardConfiguration GetBoardConfig() =>
             Provider.GetOrInstanciate(ScriptableObject.CreateInstance<BoardConfiguration>,
                 "BoardProvider.BoardConfiguration");
+
+        public static IBuildMatrix GetMatrixBuilder()=>
+            Provider.GetOrInstanciate(()=> new BuildMatrix(), "BoardProvider.BuildMatrix");
     }
 }

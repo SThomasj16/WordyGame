@@ -2,5 +2,6 @@
 {
     public interface IGetWord
     {
+        Word Execute(WordAmountOfCharacters amountOfCharacters);
     }
 }
