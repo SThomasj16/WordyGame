@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Features.Board.Scripts.Delivery;
 using Features.Board.Scripts.Domain;
 using Features.Board.Scripts.Providers;
@@ -6,6 +8,7 @@ using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Domain.Actions;
 using Features.Words.Scripts.Providers;
 using UniRx;
+using Random = UnityEngine.Random;
 
 namespace Features.Board.Scripts.Presentation
 {
@@ -46,7 +49,8 @@ namespace Features.Board.Scripts.Presentation
             switch (matrixType)
             {
                 case BoardMatrix.FiveByFive:
-                    var matrix = _matrixBuilder.Execute(_getWord.Execute(WordAmountOfCharacters.Five).Value, 5);
+                    var words = GetWords(WordAmountOfCharacters.Five,5);
+                    var matrix = _matrixBuilder.Execute(words, 5);
                     _view.InstanceLetterItems(matrix);
                     break;
                 case BoardMatrix.SixBySix:
@@ -61,6 +65,17 @@ namespace Features.Board.Scripts.Presentation
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private List<Word> GetWords(WordAmountOfCharacters amountOfCharactersLimit, int amount)
+        {
+            var words = new List<Word>();
+            words.Add(_getWord.Execute(WordAmountOfCharacters.Five));
+            for (var i = 1; i < amount; i++)
+            {
+                words.Add(_getWord.Execute(WordAmountOfCharacters.Three));
+            }
+            return words;
         }
 
         public static BoardPresenter Present(IBoardView view) =>
