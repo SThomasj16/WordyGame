@@ -54,7 +54,7 @@ namespace Features.Words.Tests.Services
         }
         
         [Test]
-        public void GetNewWordWhenWordWhenUsedRepositoryIsFull()
+        public void GetNewWordWhenUsedRepositoryIsFull()
         {
             GivenAListOfWords();
             GivenAFullUsedWordsRepository();

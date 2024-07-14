@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Features.Provider.Scripts
+namespace Utils.Provider.Scripts
 {
     public static class Provider
     {

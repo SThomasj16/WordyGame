@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Features.Runtime.Scripts;
 using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Providers;
 using Newtonsoft.Json;
 using UniRx;
 using UnityEngine;
+using Utils.Runtime.Scripts;
 
 namespace Features.Words.Scripts.Delivery
 {
@@ -13,7 +13,7 @@ namespace Features.Words.Scripts.Delivery
     {
         private const string FileName = "wordsJson";
 
-        private void Start()
+        private void Awake()
         {
             Initialize()
                 .Subscribe()

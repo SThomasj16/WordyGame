@@ -1,5 +1,5 @@
 ﻿using Features.Words.Scripts.Infrastructure;
-using static Features.Provider.Scripts.Provider;
+using static Utils.Provider.Scripts.Provider;
 
 namespace Features.Words.Scripts.Providers
 {

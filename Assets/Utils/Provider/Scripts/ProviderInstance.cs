@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Features.Provider.Scripts
+namespace Utils.Provider.Scripts
 {
     public class ProviderInstance
     {

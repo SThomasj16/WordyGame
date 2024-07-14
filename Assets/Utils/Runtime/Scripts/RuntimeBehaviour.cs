@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Features.Runtime.Scripts
+namespace Utils.Runtime.Scripts
 {
     public abstract class RuntimeBehaviour : MonoBehaviour
     {
