@@ -2,6 +2,8 @@
 using System.Linq;
 using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Infrastructure;
+using Utils;
+using Utils.Extension_Methods;
 
 namespace Features.Words.Scripts.Services
 {
@@ -34,6 +36,8 @@ namespace Features.Words.Scripts.Services
         {
             return _wordsRepository.Get()
                 .Where(FilterUsedWords())
+                .ToList()
+                .Shuffle()
                 .FirstOrDefault(IsWordWithCorrectAmountOfCharacters(amountOfCharacters));
         }
 
