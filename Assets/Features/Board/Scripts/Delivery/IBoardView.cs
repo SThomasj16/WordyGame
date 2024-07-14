@@ -6,7 +6,6 @@ namespace Features.Board.Scripts.Delivery
 {
     public interface IBoardView
     {
-        BoardMatrix GetMatrixType();
         IObservable<Unit> OnViewAppear();
         void InstanceLetterItems(int amount);
     }

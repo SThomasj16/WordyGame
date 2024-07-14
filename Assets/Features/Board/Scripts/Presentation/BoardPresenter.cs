@@ -1,6 +1,7 @@
 ﻿using System;
 using Features.Board.Scripts.Delivery;
 using Features.Board.Scripts.Domain;
+using Features.Board.Scripts.Providers;
 using UniRx;
 
 namespace Features.Board.Scripts.Presentation
@@ -8,10 +9,12 @@ namespace Features.Board.Scripts.Presentation
     public class BoardPresenter
     {
         private readonly IBoardView _view;
+        private readonly IBoardConfiguration _boardConfig;
         private readonly CompositeDisposable _disposable;
-        public BoardPresenter(IBoardView view)
+        public BoardPresenter(IBoardView view, IBoardConfiguration boardConfig)
         {
             _view = view;
+            _boardConfig = boardConfig;
             _disposable = new CompositeDisposable();
             SubscribeToViewEvents();
         }
@@ -31,7 +34,7 @@ namespace Features.Board.Scripts.Presentation
 
         private void PopulateBoard()
         {
-            var matrixType = _view.GetMatrixType();
+            var matrixType = _boardConfig.GetMatrix();
             switch (matrixType)
             {
                 case BoardMatrix.FiveByFive:
@@ -50,5 +53,8 @@ namespace Features.Board.Scripts.Presentation
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        public static BoardPresenter Present(IBoardView view) =>
+            new(view, BoardProvider.GetBoardConfig());
     }
 }

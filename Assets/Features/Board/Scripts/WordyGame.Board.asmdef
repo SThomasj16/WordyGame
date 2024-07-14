@@ -1,4 +1,4 @@
 {
 	"name": "WordyGame.Board",
-	"references":[ "GUID:560b04d1a97f54a4e82edc0cbbb69285" ]
+	"references":[ "GUID:560b04d1a97f54a4e82edc0cbbb69285", "GUID:8ed053d5ac51a7247a2794bb892ad0f4" ]
 }

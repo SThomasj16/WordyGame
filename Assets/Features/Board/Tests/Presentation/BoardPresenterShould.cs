@@ -12,14 +12,16 @@ namespace Features.Board.Tests.Presentation
         private BoardPresenter _presenter;
         private IBoardView _view;
         private ISubject<Unit> _onAppear;
+        private IBoardConfiguration _config;
 
         [SetUp]
         public void Setup()
         {
             _onAppear = new Subject<Unit>();
+            _config = Substitute.For<IBoardConfiguration>();
             _view = Substitute.For<IBoardView>();
             _view.OnViewAppear().Returns(_onAppear);
-            _presenter = new BoardPresenter(_view);
+            _presenter = new BoardPresenter(_view, _config);
         }
 
         [TestCase(BoardMatrix.FiveByFive, 25)]
@@ -35,7 +37,7 @@ namespace Features.Board.Tests.Presentation
         
         private void GivenABoardMatrixConfig(BoardMatrix boardMatrix)
         {
-            _view.GetMatrixType().Returns(boardMatrix);
+            _config.GetMatrix().Returns(boardMatrix);
         }
         
         private void WhenViewAppears()

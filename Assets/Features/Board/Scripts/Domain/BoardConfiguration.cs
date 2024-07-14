@@ -4,7 +4,7 @@ namespace Features.Board.Scripts.Domain
 {
     [CreateAssetMenu(fileName = "WordyGame", menuName = "Board/CreateConfig", order = 1)]
 
-    public class BoardConfiguration : ScriptableObject
+    public class BoardConfiguration :  ScriptableObject, IBoardConfiguration
     {
         private BoardMatrix _matrixType;
         public void SetMatrix(BoardMatrix matrix) => _matrixType = matrix;
