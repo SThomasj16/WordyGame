@@ -17,7 +17,7 @@ namespace Features.Board.Scripts.Delivery
         
         private readonly ISubject<Unit> _onAppear = new Subject<Unit>();
         private readonly ISubject<Unit> _onMouseUp = new Subject<Unit>();
-        private readonly ISubject<char> _onLetterSelected = new Subject<char>();
+        private readonly ISubject<LetterItemView> _onLetterSelected = new Subject<LetterItemView>();
 
         private void Awake()
         {
@@ -72,7 +72,7 @@ namespace Features.Board.Scripts.Delivery
         }
 
         public IObservable<Unit> OnViewAppear() => _onAppear;
-        public IObservable<char> OnLetterSelected() => _onLetterSelected;
+        public IObservable<LetterItemView> OnLetterSelected() => _onLetterSelected;
 
         public IObservable<Unit> OnMouseUp() => _onMouseUp;
     }

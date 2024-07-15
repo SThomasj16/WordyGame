@@ -6,10 +6,10 @@
         public WordTheme Theme;
         public int AmountOfCharacters => Value.Length;
 
-        public Word(string value, WordTheme theme)
+        public Word(string value)
         {
             Value = value;
-            Theme = theme;
+            Theme = WordTheme.Animals;
         }
     }
 }

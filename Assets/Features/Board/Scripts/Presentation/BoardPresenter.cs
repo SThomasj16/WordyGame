@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Features.Board.Scripts.Delivery;
 using Features.Board.Scripts.Domain;
 using Features.Board.Scripts.Domain.Actions;
@@ -21,7 +22,7 @@ namespace Features.Board.Scripts.Presentation
         private readonly ISaveCurrentMatchWords _saveCurrentMatchWords;
         private readonly IIsWordInBoard _isWordInBoard;
         private readonly CompositeDisposable _disposable;
-        private readonly List<char> _charactersSelected = new();
+        private readonly List<LetterItemView> _wordItemsSelected = new();
         public BoardPresenter(IBoardView view, IBoardConfiguration boardConfig, IGetWord getWord,
             IBuildMatrix matrixBuilder, ISaveCurrentMatchWords saveCurrentMatchWords,
             IIsWordInBoard isWordInBoard)
@@ -51,20 +52,24 @@ namespace Features.Board.Scripts.Presentation
             _view.OnMouseUp()
                 .Do(_ => HandleMouseUp())
                 .Subscribe()
-                .AddTo(_disposable);        }
+                .AddTo(_disposable);        
+        }
 
         private void HandleMouseUp()
         {
-            var selectedWord = new Word(new string(_charactersSelected.ToArray()), WordTheme.Animals);
-            if(_isWordInBoard.Execute(selectedWord))
-                Debug.Log("EXITO");
-            _charactersSelected.Clear();
+            var word =_wordItemsSelected.Select(word => word.GetLetter()).ToArray();
+            var selectedWord = new Word(new string(word));
+            if (_isWordInBoard.Execute(selectedWord))
+                _wordItemsSelected.ForEach(item => item.Lock());
+            else
+                _wordItemsSelected.ForEach(item => item.Deselect());
+
+            _wordItemsSelected.Clear();
         }
 
-        private void HandleLetterSelected(char character)
+        private void HandleLetterSelected(LetterItemView letterItem)
         {
-            _charactersSelected.Add(character);
-            Debug.Log(character);
+            _wordItemsSelected.Add(letterItem);
         }
 
         private void HandleOnAppear()
@@ -79,19 +84,19 @@ namespace Features.Board.Scripts.Presentation
             {
                 case BoardMatrix.FiveByFive:
                     ConfigBoard(WordAmountOfCharacters.Five);
-                    FillBoardWith(WordAmountOfCharacters.Five, (int)WordAmountOfCharacters.Five);
+                    FillBoardWithWords(WordAmountOfCharacters.Five);
                     break;
                 case BoardMatrix.SixBySix:
                     ConfigBoard(WordAmountOfCharacters.Six);
-                    FillBoardWith(WordAmountOfCharacters.Six, (int)WordAmountOfCharacters.Six);
+                    FillBoardWithWords(WordAmountOfCharacters.Six);
                     break;
                 case BoardMatrix.SevenBySeven:
                     ConfigBoard(WordAmountOfCharacters.Seven);
-                    FillBoardWith(WordAmountOfCharacters.Seven, (int)WordAmountOfCharacters.Seven);
+                    FillBoardWithWords(WordAmountOfCharacters.Seven);
                     break;
                 case BoardMatrix.EightByEight:
                     ConfigBoard(WordAmountOfCharacters.Eight);
-                    FillBoardWith(WordAmountOfCharacters.Eight,  (int)WordAmountOfCharacters.Eight);
+                    FillBoardWithWords(WordAmountOfCharacters.Eight);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -104,9 +109,9 @@ namespace Features.Board.Scripts.Presentation
             _view.SetCellSize(GetCellSizeFor(wordAmountOfCharacters));
         }
         
-        private void FillBoardWith(WordAmountOfCharacters wordAmountOfCharacters, int amountOfWords)
+        private void FillBoardWithWords(WordAmountOfCharacters wordAmountOfCharacters)
         {
-            var selectedWords = GetWords(wordAmountOfCharacters,amountOfWords);
+            var selectedWords = GetWords(wordAmountOfCharacters,(int)wordAmountOfCharacters);
             var matrix = _matrixBuilder.Execute(selectedWords, (int)wordAmountOfCharacters);
             SaveWords(selectedWords);
             DebugSelectedWords(selectedWords);

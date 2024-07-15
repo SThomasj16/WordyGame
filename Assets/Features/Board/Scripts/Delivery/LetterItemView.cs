@@ -14,20 +14,23 @@ namespace Features.Board.Scripts.Delivery
         [SerializeField] private Color normalColor;
         [SerializeField] private Color selectedColor;
         
+        private readonly Subject<LetterItemView> _onSelected = new();
         private char _selectedLetter;
         private bool _isSelected;
-        private readonly Subject<char> _onSelected = new();
-        public IObservable<char> OnSelected() => _onSelected;
+        private bool _isLocked;
+        public IObservable<LetterItemView> OnSelected() => _onSelected;
 
         public void Set(char letter)
         {
             _selectedLetter = letter;
             label.text = letter.ToString().ToUpper();
         }
+
+        public char GetLetter() => _selectedLetter;
         
         public void OnPointerMove(PointerEventData eventData)
         {
-            if(_isSelected) return;
+            if(_isSelected || _isLocked) return;
 #if UNITY_ANDROID && !UNITY_EDITOR
             if (Input.touchCount > 0)
                 Select();
@@ -40,8 +43,19 @@ namespace Features.Board.Scripts.Delivery
         private void Select()
         {
             _isSelected = true;
-            _onSelected.OnNext(_selectedLetter);
+            _onSelected.OnNext(this);
             background.color = selectedColor;
+        }
+
+        public void Deselect()
+        {
+            _isSelected = false;
+            background.color = normalColor;
+        }
+
+        public void Lock()
+        {
+            _isLocked = true;
         }
     }
 }

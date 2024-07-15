@@ -30,9 +30,9 @@ namespace Features.Words.Scripts.Delivery
 
         private void SaveToRepository(WordsJsonDto dto)
         {
-            var listOfWords = dto.Animals.Select(animal => new Word(animal, WordTheme.Animals)).ToList();
-            listOfWords.AddRange(dto.Food.Select(food => new Word(food, WordTheme.Food)));
-            listOfWords.AddRange(dto.Nature.Select(nature => new Word(nature, WordTheme.Nature)));
+            var listOfWords = dto.Animals.Select(animal => new Word(animal)).ToList();
+            listOfWords.AddRange(dto.Food.Select(food => new Word(food)));
+            listOfWords.AddRange(dto.Nature.Select(nature => new Word(nature)));
             WordsProvider.GetWordsRepository().Set(listOfWords);
         }
 

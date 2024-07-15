@@ -10,7 +10,7 @@ namespace Features.Board.Scripts.Delivery
         void InstanceLetterItems(List<char> word);
         void SetBoardColumns(int matrix);
         void SetCellSize(int expected);
-        IObservable<char> OnLetterSelected();
+        IObservable<LetterItemView> OnLetterSelected();
         IObservable<Unit> OnMouseUp();
     }
 }
