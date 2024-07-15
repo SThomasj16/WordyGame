@@ -38,7 +38,12 @@ namespace Features.Board.Scripts.Delivery
 
         public void SetBoardColumns(int matrix)
         {
-            layoutGroup.constraintCount = (int) matrix;
+            layoutGroup.constraintCount = matrix;
+        }
+
+        public void SetCellSize(int expected)
+        {
+            layoutGroup.cellSize = new Vector2(expected, expected);
         }
 
         public IObservable<Unit> OnViewAppear() => _onAppear;

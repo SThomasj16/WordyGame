@@ -48,24 +48,28 @@ namespace Features.Board.Scripts.Presentation
             {
                 case BoardMatrix.FiveByFive:
                     _view.SetBoardColumns(5);
+                    _view.SetCellSize(120);
                     var fiveCharacterWord = GetWords(WordAmountOfCharacters.Five,5);
                     var matrix = _matrixBuilder.Execute(fiveCharacterWord, 5);
                     _view.InstanceLetterItems(matrix);
                     break;
                 case BoardMatrix.SixBySix:
                     _view.SetBoardColumns(6);
+                    _view.SetCellSize(110);
                     var sixCharacterWords = GetWords(WordAmountOfCharacters.Six,5);
                     var sixBySixMatrix = _matrixBuilder.Execute(sixCharacterWords, 6);
                     _view.InstanceLetterItems(sixBySixMatrix);
                     break;
                 case BoardMatrix.SevenBySeven:
                     _view.SetBoardColumns(7);
+                    _view.SetCellSize(100);
                     var sevenCharacterWords = GetWords(WordAmountOfCharacters.Seven,5);
                     var sevenBySevenMatrix = _matrixBuilder.Execute(sevenCharacterWords, 7);
                     _view.InstanceLetterItems(sevenBySevenMatrix);
                     break;
                 case BoardMatrix.EightByEight:
                     _view.SetBoardColumns(8);
+                    _view.SetCellSize(90);
                     var eightCharacterWords = GetWords(WordAmountOfCharacters.Eight,5);
                     var eightByEightMatrix = _matrixBuilder.Execute(eightCharacterWords, 8);
                     _view.InstanceLetterItems(eightByEightMatrix);

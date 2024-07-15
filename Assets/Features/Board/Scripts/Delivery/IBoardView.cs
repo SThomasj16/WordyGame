@@ -10,5 +10,6 @@ namespace Features.Board.Scripts.Delivery
         IObservable<Unit> OnViewAppear();
         void InstanceLetterItems(List<char> amount);
         void SetBoardColumns(int matrix);
+        void SetCellSize(int expected);
     }
 }

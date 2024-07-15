@@ -52,6 +52,17 @@ namespace Features.Board.Tests.Presentation
             WhenViewAppears();
             ThenSetBoardColumns(expected);
         }
+        
+        [TestCase(BoardMatrix.FiveByFive,120)]
+        [TestCase(BoardMatrix.SixBySix,110)]
+        [TestCase(BoardMatrix.SevenBySeven,100)]
+        [TestCase(BoardMatrix.EightByEight,90)]
+        public void SetCellSizeOnViewAppear(BoardMatrix matrix, int expected)
+        {
+            GivenABoardMatrixConfig(matrix);
+            WhenViewAppears();
+            ThenSetCellSize(expected);
+        }
 
         private void GivenABoardMatrixConfig(BoardMatrix boardMatrix)
         {
@@ -71,6 +82,11 @@ namespace Features.Board.Tests.Presentation
         private void ThenSetBoardColumns(int amountOfColumns)
         {
             _view.Received(1).SetBoardColumns(amountOfColumns);
+        }
+        
+        private void ThenSetCellSize(int expected)
+        {
+            _view.Received(1).SetCellSize(expected);
         }
     }
 }
