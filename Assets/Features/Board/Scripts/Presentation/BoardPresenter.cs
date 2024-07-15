@@ -8,6 +8,7 @@ using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Domain.Actions;
 using Features.Words.Scripts.Providers;
 using UniRx;
+using UnityEngine;
 
 namespace Features.Board.Scripts.Presentation
 {
@@ -89,6 +90,10 @@ namespace Features.Board.Scripts.Presentation
         private void SaveWords(List<Word> words)
         {
             _saveCurrentMatchWords.Execute(words);
+            for (int i = 0; i < words.Count; i++)
+            {
+                Debug.Log(words[i].Value);
+            }
         }
 
         private List<Word> GetWords(WordAmountOfCharacters amountOfCharactersLimit, int amount)

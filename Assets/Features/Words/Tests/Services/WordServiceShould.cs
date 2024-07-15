@@ -5,6 +5,7 @@ using Features.Words.Scripts.Services;
 using Features.Words.Tests.Domain;
 using NSubstitute;
 using NUnit.Framework;
+using Utils;
 
 namespace Features.Words.Tests.Services
 {
