@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Features.Board.Scripts.Domain;
 using Features.Board.Scripts.Presentation;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Features.Board.Scripts.Delivery
 {
@@ -10,6 +12,7 @@ namespace Features.Board.Scripts.Delivery
     {
         [SerializeField] private Transform lettersContainer;
         [SerializeField] private GameObject letterItemPrefab;
+        [SerializeField] private GridLayoutGroup layoutGroup;
         
         private readonly ISubject<Unit> _onAppear = new Subject<Unit>();
 
@@ -32,7 +35,12 @@ namespace Features.Board.Scripts.Delivery
             }
 
         }
-        
+
+        public void SetBoardColumns(int matrix)
+        {
+            layoutGroup.constraintCount = (int) matrix;
+        }
+
         public IObservable<Unit> OnViewAppear() => _onAppear;
 
     }

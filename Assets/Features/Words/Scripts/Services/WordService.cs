@@ -2,7 +2,6 @@
 using System.Linq;
 using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Infrastructure;
-using Utils;
 using Utils.Extension_Methods;
 
 namespace Features.Words.Scripts.Services

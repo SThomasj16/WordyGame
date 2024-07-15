@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a4c567901d492b85fb48a328bec6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardConfig: {fileID: 11400000, guid: 269846f47462f8d4c92442494b57a2f5, type: 2}
   lettersContainer: {fileID: 5802874347743994271}
   letterItemPrefab: {fileID: 1704794139504610682, guid: 8ed6775210bb010458d7fdb0a997748b, type: 3}
+  layoutGroup: {fileID: 5802874347743994268}
 --- !u!1 &5802874347357623434
 GameObject:
   m_ObjectHideFlags: 0

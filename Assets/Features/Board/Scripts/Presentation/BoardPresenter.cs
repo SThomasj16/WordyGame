@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Features.Board.Scripts.Delivery;
 using Features.Board.Scripts.Domain;
 using Features.Board.Scripts.Providers;
@@ -8,7 +7,6 @@ using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Domain.Actions;
 using Features.Words.Scripts.Providers;
 using UniRx;
-using Random = UnityEngine.Random;
 
 namespace Features.Board.Scripts.Presentation
 {
@@ -49,18 +47,28 @@ namespace Features.Board.Scripts.Presentation
             switch (matrixType)
             {
                 case BoardMatrix.FiveByFive:
-                    var words = GetWords(WordAmountOfCharacters.Five,5);
-                    var matrix = _matrixBuilder.Execute(words, 5);
+                    _view.SetBoardColumns(5);
+                    var fiveCharacterWord = GetWords(WordAmountOfCharacters.Five,5);
+                    var matrix = _matrixBuilder.Execute(fiveCharacterWord, 5);
                     _view.InstanceLetterItems(matrix);
                     break;
                 case BoardMatrix.SixBySix:
-                    //_view.InstanceLetterItems(36);
+                    _view.SetBoardColumns(6);
+                    var sixCharacterWords = GetWords(WordAmountOfCharacters.Six,5);
+                    var sixBySixMatrix = _matrixBuilder.Execute(sixCharacterWords, 6);
+                    _view.InstanceLetterItems(sixBySixMatrix);
                     break;
                 case BoardMatrix.SevenBySeven:
-                    //_view.InstanceLetterItems(49);
+                    _view.SetBoardColumns(7);
+                    var sevenCharacterWords = GetWords(WordAmountOfCharacters.Seven,5);
+                    var sevenBySevenMatrix = _matrixBuilder.Execute(sevenCharacterWords, 7);
+                    _view.InstanceLetterItems(sevenBySevenMatrix);
                     break;
                 case BoardMatrix.EightByEight:
-                    //_view.InstanceLetterItems(64);
+                    _view.SetBoardColumns(8);
+                    var eightCharacterWords = GetWords(WordAmountOfCharacters.Eight,5);
+                    var eightByEightMatrix = _matrixBuilder.Execute(eightCharacterWords, 8);
+                    _view.InstanceLetterItems(eightByEightMatrix);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -69,12 +77,9 @@ namespace Features.Board.Scripts.Presentation
 
         private List<Word> GetWords(WordAmountOfCharacters amountOfCharactersLimit, int amount)
         {
-            var words = new List<Word>();
-            words.Add(_getWord.Execute(WordAmountOfCharacters.Five));
-            for (var i = 1; i < amount; i++)
-            {
+            var words = new List<Word> {_getWord.Execute(amountOfCharactersLimit)};
+            for (var i = 1; i < amount; i++) 
                 words.Add(_getWord.Execute(WordAmountOfCharacters.Three));
-            }
             return words;
         }
 
