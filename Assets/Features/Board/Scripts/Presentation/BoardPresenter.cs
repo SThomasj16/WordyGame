@@ -23,12 +23,13 @@ namespace Features.Board.Scripts.Presentation
         private readonly IIsWordInBoard _isWordInBoard;
         private readonly ISaveSelectedMatchWords _saveSelectedMatchWords;
         private readonly ICheckVictoryStatus _checkVictoryStatus;
+        private readonly ISubject<Unit> _onVictoryEvent;
         private readonly CompositeDisposable _disposable;
         private readonly List<LetterItemView> _wordItemsSelected = new();
         public BoardPresenter(IBoardView view, IBoardConfiguration boardConfig, IGetWord getWord,
             IBuildMatrix matrixBuilder, ISaveCurrentMatchWords saveCurrentMatchWords,
             IIsWordInBoard isWordInBoard, ISaveSelectedMatchWords saveSelectedMatchWords,
-            ICheckVictoryStatus checkVictoryStatus)
+            ICheckVictoryStatus checkVictoryStatus, ISubject<Unit> onVictoryEvent)
         {
             _view = view;
             _boardConfig = boardConfig;
@@ -38,6 +39,7 @@ namespace Features.Board.Scripts.Presentation
             _isWordInBoard = isWordInBoard;
             _saveSelectedMatchWords = saveSelectedMatchWords;
             _checkVictoryStatus = checkVictoryStatus;
+            _onVictoryEvent = onVictoryEvent;
             _disposable = new CompositeDisposable();
             SubscribeToViewEvents();
         }
@@ -81,7 +83,7 @@ namespace Features.Board.Scripts.Presentation
 
             _wordItemsSelected.Clear();
             if(IsAVictory())
-                Debug.Log("Victory");
+                _onVictoryEvent.OnNext(Unit.Default);
         }
 
         private bool IsAVictory()
@@ -185,6 +187,6 @@ namespace Features.Board.Scripts.Presentation
             new(view, BoardProvider.GetBoardConfig(), WordsProvider.GetWordAction(),
                 BoardProvider.GetMatrixBuilder(), BoardProvider.GetSaveCurrentMatchWordsAction(), 
                 BoardProvider.GetIsWordInBoardAction(), BoardProvider.GetSaveSelectedMatchWords(), 
-                BoardProvider.GetCheckVictoryStatusAction());
+                BoardProvider.GetCheckVictoryStatusAction(), BoardProvider.GetOnVictoryEvent());
     }
 }

@@ -23,12 +23,14 @@ namespace Features.Board.Tests.Presentation
         private ICheckVictoryStatus _checkVictoryStatusAction;
         private ISubject<Unit> _onAppear;
         private ISubject<Unit> _onMouseUp;
+        private ISubject<Unit> _onVictory;
 
         [SetUp]
         public void Setup()
         {
             _onAppear = new Subject<Unit>();
             _onMouseUp = new Subject<Unit>();
+            _onVictory = new Subject<Unit>();
             _config = Substitute.For<IBoardConfiguration>();
             _view = Substitute.For<IBoardView>();
             _getWordAction = Substitute.For<IGetWord>();
@@ -40,7 +42,7 @@ namespace Features.Board.Tests.Presentation
             _view.OnViewAppear().Returns(_onAppear);
             _view.OnMouseUp().Returns(_onMouseUp);
             _presenter = new BoardPresenter(_view, _config,_getWordAction,_buildMatrix,_saveCurrentMatchWordsAction,
-                _isWordInBoard,_saveSelectedMatchWordsAction,_checkVictoryStatusAction);
+                _isWordInBoard,_saveSelectedMatchWordsAction,_checkVictoryStatusAction,_onVictory);
         }
 
         [TestCase(BoardMatrix.FiveByFive)]

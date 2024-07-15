@@ -1,7 +1,9 @@
-﻿using Features.Board.Scripts.Domain;
+﻿using System;
+using Features.Board.Scripts.Domain;
 using Features.Board.Scripts.Domain.Actions;
 using Features.Board.Scripts.Infrastructure;
 using Features.Words.Scripts.Domain.Actions;
+using UniRx;
 using UnityEngine;
 using Utils.Provider.Scripts;
 
@@ -14,7 +16,8 @@ namespace Features.Board.Scripts.Providers
                 "BoardProvider.BoardConfiguration");
 
         public static IBuildMatrix GetMatrixBuilder()=>
-            Provider.GetOrInstanciate(()=> new BuildMatrix(), "BoardProvider.BuildMatrix");
+            Provider.GetOrInstanciate(()=> new BuildMatrix(), 
+                "BoardProvider.BuildMatrix");
 
         public static ISaveCurrentMatchWords GetSaveCurrentMatchWordsAction() =>
             Provider.GetOrInstanciate(() => new SaveCurrentMatchWords(GetCurrentMatchWordsRepository()), 
@@ -39,5 +42,9 @@ namespace Features.Board.Scripts.Providers
         public static ICheckVictoryStatus GetCheckVictoryStatusAction()=>
             Provider.GetOrInstanciate(() => new CheckVictoryStatus(GetCurrentMatchWordsRepository(), GetCurrentMatchSelectedWordsRepository()), 
                 "BoardProvider.GetCheckVictoryStatusAction");
+
+        public static ISubject<Unit> GetOnVictoryEvent() => 
+            Provider.GetOrInstanciate(() => new Subject<Unit>(),
+                "BoardProvider.OnVictoryEvent");
     }
 }
