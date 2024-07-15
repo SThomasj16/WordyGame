@@ -26,14 +26,13 @@ namespace Features.Board.Scripts.Delivery
             _onAppear.OnNext(Unit.Default);
         }
 
-        public void InstanceLetterItems(List<char> amount)
+        public void InstanceLetterItems(List<char> word)
         {
-            for (var i = 0; i < amount.Count; i++)
+            foreach (var character in word)
             {
-               var letterItem = Instantiate(letterItemPrefab, lettersContainer).GetComponent<LetterItemView>();
-               letterItem.Set(amount[i]);
+                var letterItem = Instantiate(letterItemPrefab, lettersContainer).GetComponent<LetterItemView>();
+                letterItem.Set(character);
             }
-
         }
 
         public void SetBoardColumns(int matrix)

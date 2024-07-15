@@ -2,7 +2,7 @@
 using System.Linq;
 using Features.Words.Scripts.Domain;
 
-namespace Features.Words.Tests.Domain
+namespace Utils
 {
     public static class WordMother
     {

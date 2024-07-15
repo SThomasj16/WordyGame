@@ -1,4 +1,6 @@
 ﻿using Features.Board.Scripts.Domain;
+using Features.Board.Scripts.Domain.Actions;
+using Features.Board.Scripts.Infrastructure;
 using UnityEngine;
 using Utils.Provider.Scripts;
 
@@ -12,5 +14,13 @@ namespace Features.Board.Scripts.Providers
 
         public static IBuildMatrix GetMatrixBuilder()=>
             Provider.GetOrInstanciate(()=> new BuildMatrix(), "BoardProvider.BuildMatrix");
+
+        public static ISaveCurrentMatchWords GetSaveCurrentMatchWordsAction() =>
+            Provider.GetOrInstanciate(() => new SaveCurrentMatchWords(GetCurrentMatchWordsRepository()), 
+                "BoardProvider.SaveCurrentMatchWords");
+
+        private static ICurrentMatchWordsRepository GetCurrentMatchWordsRepository() =>
+            Provider.GetOrInstanciate(() => new CurrentMatchWordsRepository(), 
+                "BoardProvider.CurrentMatchWordsRepository");
     }
 }

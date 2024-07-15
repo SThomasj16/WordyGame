@@ -8,7 +8,7 @@ namespace Features.Board.Scripts.Delivery
     public interface IBoardView
     {
         IObservable<Unit> OnViewAppear();
-        void InstanceLetterItems(List<char> amount);
+        void InstanceLetterItems(List<char> word);
         void SetBoardColumns(int matrix);
         void SetCellSize(int expected);
     }

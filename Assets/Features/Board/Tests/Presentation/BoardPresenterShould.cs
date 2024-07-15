@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using Features.Board.Scripts.Delivery;
 using Features.Board.Scripts.Domain;
+using Features.Board.Scripts.Domain.Actions;
 using Features.Board.Scripts.Presentation;
+using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Domain.Actions;
 using NSubstitute;
+using NSubstitute.ReceivedExtensions;
 using NUnit.Framework;
 using UniRx;
+using Utils;
 
 namespace Features.Board.Tests.Presentation
 {
@@ -17,6 +21,7 @@ namespace Features.Board.Tests.Presentation
         private IBoardConfiguration _config;
         private IGetWord _getWordAction;
         private IBuildMatrix _buildMatrix;
+        private ISaveCurrentMatchWords _saveCurrentMatchWordsAction;
         
         [SetUp]
         public void Setup()
@@ -26,8 +31,9 @@ namespace Features.Board.Tests.Presentation
             _view = Substitute.For<IBoardView>();
             _getWordAction = Substitute.For<IGetWord>();
             _buildMatrix = Substitute.For<IBuildMatrix>();
+            _saveCurrentMatchWordsAction = Substitute.For<ISaveCurrentMatchWords>();
             _view.OnViewAppear().Returns(_onAppear);
-            _presenter = new BoardPresenter(_view, _config,_getWordAction,_buildMatrix);
+            _presenter = new BoardPresenter(_view, _config,_getWordAction,_buildMatrix,_saveCurrentMatchWordsAction);
         }
 
         [TestCase(BoardMatrix.FiveByFive)]
