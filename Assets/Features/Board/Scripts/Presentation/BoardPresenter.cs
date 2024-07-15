@@ -64,10 +64,17 @@ namespace Features.Board.Scripts.Presentation
         {
             var word =_wordItemsSelected.Select(word => word.GetLetter()).ToArray();
             var selectedWord = new Word(new string(word));
+            Array.Reverse(word);
+            var invertedWord = new Word(new string(word));
             if (_isWordInBoard.Execute(selectedWord))
             {
                 _wordItemsSelected.ForEach(item => item.Lock());
                 _saveSelectedMatchWords.Execute(selectedWord);
+            }
+            else if (_isWordInBoard.Execute(invertedWord))
+            {
+                _wordItemsSelected.ForEach(item => item.Lock());
+                _saveSelectedMatchWords.Execute(invertedWord);
             }
             else
                 _wordItemsSelected.ForEach(item => item.Deselect());
