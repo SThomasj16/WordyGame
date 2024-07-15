@@ -3,13 +3,10 @@ using Features.Board.Scripts.Delivery;
 using Features.Board.Scripts.Domain;
 using Features.Board.Scripts.Domain.Actions;
 using Features.Board.Scripts.Presentation;
-using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Domain.Actions;
 using NSubstitute;
-using NSubstitute.ReceivedExtensions;
 using NUnit.Framework;
 using UniRx;
-using Utils;
 
 namespace Features.Board.Tests.Presentation
 {
@@ -23,6 +20,7 @@ namespace Features.Board.Tests.Presentation
         private ISaveCurrentMatchWords _saveCurrentMatchWordsAction;
         private IIsWordInBoard _isWordInBoard;
         private ISaveSelectedMatchWords _saveSelectedMatchWordsAction;
+        private ICheckVictoryStatus _checkVictoryStatusAction;
         private ISubject<Unit> _onAppear;
         private ISubject<Unit> _onMouseUp;
 
@@ -38,10 +36,11 @@ namespace Features.Board.Tests.Presentation
             _saveCurrentMatchWordsAction = Substitute.For<ISaveCurrentMatchWords>();
             _isWordInBoard = Substitute.For<IIsWordInBoard>();
             _saveSelectedMatchWordsAction = Substitute.For<ISaveSelectedMatchWords>();
+            _checkVictoryStatusAction = Substitute.For<ICheckVictoryStatus>();
             _view.OnViewAppear().Returns(_onAppear);
             _view.OnMouseUp().Returns(_onMouseUp);
             _presenter = new BoardPresenter(_view, _config,_getWordAction,_buildMatrix,_saveCurrentMatchWordsAction,
-                _isWordInBoard,_saveSelectedMatchWordsAction);
+                _isWordInBoard,_saveSelectedMatchWordsAction,_checkVictoryStatusAction);
         }
 
         [TestCase(BoardMatrix.FiveByFive)]

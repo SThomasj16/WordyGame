@@ -22,11 +22,13 @@ namespace Features.Board.Scripts.Presentation
         private readonly ISaveCurrentMatchWords _saveCurrentMatchWords;
         private readonly IIsWordInBoard _isWordInBoard;
         private readonly ISaveSelectedMatchWords _saveSelectedMatchWords;
+        private readonly ICheckVictoryStatus _checkVictoryStatus;
         private readonly CompositeDisposable _disposable;
         private readonly List<LetterItemView> _wordItemsSelected = new();
         public BoardPresenter(IBoardView view, IBoardConfiguration boardConfig, IGetWord getWord,
             IBuildMatrix matrixBuilder, ISaveCurrentMatchWords saveCurrentMatchWords,
-            IIsWordInBoard isWordInBoard, ISaveSelectedMatchWords saveSelectedMatchWords)
+            IIsWordInBoard isWordInBoard, ISaveSelectedMatchWords saveSelectedMatchWords,
+            ICheckVictoryStatus checkVictoryStatus)
         {
             _view = view;
             _boardConfig = boardConfig;
@@ -35,6 +37,7 @@ namespace Features.Board.Scripts.Presentation
             _saveCurrentMatchWords = saveCurrentMatchWords;
             _isWordInBoard = isWordInBoard;
             _saveSelectedMatchWords = saveSelectedMatchWords;
+            _checkVictoryStatus = checkVictoryStatus;
             _disposable = new CompositeDisposable();
             SubscribeToViewEvents();
         }
@@ -70,7 +73,13 @@ namespace Features.Board.Scripts.Presentation
                 _wordItemsSelected.ForEach(item => item.Deselect());
 
             _wordItemsSelected.Clear();
-            
+            if(IsAVictory())
+                Debug.Log("Victory");
+        }
+
+        private bool IsAVictory()
+        {
+            return _checkVictoryStatus.Execute();
         }
 
         private void HandleLetterSelected(LetterItemView letterItem)
@@ -168,6 +177,7 @@ namespace Features.Board.Scripts.Presentation
         public static BoardPresenter Present(IBoardView view) =>
             new(view, BoardProvider.GetBoardConfig(), WordsProvider.GetWordAction(),
                 BoardProvider.GetMatrixBuilder(), BoardProvider.GetSaveCurrentMatchWordsAction(), 
-                BoardProvider.GetIsWordInBoardAction(), BoardProvider.GetSaveSelectedMatchWords());
+                BoardProvider.GetIsWordInBoardAction(), BoardProvider.GetSaveSelectedMatchWords(), 
+                BoardProvider.GetCheckVictoryStatusAction());
     }
 }

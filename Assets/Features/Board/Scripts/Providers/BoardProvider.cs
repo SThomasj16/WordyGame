@@ -35,5 +35,9 @@ namespace Features.Board.Scripts.Providers
         private static ICurrentMatchSelectedWordsRepository GetCurrentMatchSelectedWordsRepository() =>
             Provider.GetOrInstanciate(() => new CurrentMatchSelectedWordsRepository(), 
                 "BoardProvider.GetCurrentMatchSelectedWordsRepository");
+
+        public static ICheckVictoryStatus GetCheckVictoryStatusAction()=>
+            Provider.GetOrInstanciate(() => new CheckVictoryStatus(GetCurrentMatchWordsRepository(), GetCurrentMatchSelectedWordsRepository()), 
+                "BoardProvider.GetCheckVictoryStatusAction");
     }
 }
