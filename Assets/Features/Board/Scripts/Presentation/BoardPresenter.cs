@@ -63,7 +63,7 @@ namespace Features.Board.Scripts.Presentation
                     break;
                 case BoardMatrix.EightByEight:
                     ConfigBoard(WordAmountOfCharacters.Eight);
-                    FillBoardWith(WordAmountOfCharacters.Eight, (int)matrixType);
+                    FillBoardWith(WordAmountOfCharacters.Eight,  (int)matrixType);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -72,7 +72,7 @@ namespace Features.Board.Scripts.Presentation
 
         private void ConfigBoard(WordAmountOfCharacters wordAmountOfCharacters)
         {
-            _view.SetBoardColumns((int)WordAmountOfCharacters.Five);
+            _view.SetBoardColumns((int)wordAmountOfCharacters);
             _view.SetCellSize(GetCellSizeFor(wordAmountOfCharacters));
         }
         
