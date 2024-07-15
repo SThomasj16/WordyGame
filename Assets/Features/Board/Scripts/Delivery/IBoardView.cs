@@ -11,6 +11,6 @@ namespace Features.Board.Scripts.Delivery
         void SetBoardColumns(int matrix);
         void SetCellSize(int expected);
         IObservable<LetterItemView> OnLetterSelected();
-        IObservable<Unit> OnMouseUp();
+        IObservable<Unit> OnViewMouseUp();
     }
 }

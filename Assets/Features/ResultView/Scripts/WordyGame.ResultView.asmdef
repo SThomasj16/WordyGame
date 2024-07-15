@@ -1,0 +1,4 @@
+{
+	"name": "WordyGame.ResultView",
+	"references":[ "GUID:be9b009b25b9e284b8803b5236f603f0", "GUID:560b04d1a97f54a4e82edc0cbbb69285" ]
+}

@@ -56,10 +56,10 @@ namespace Features.Board.Scripts.Presentation
                 .Subscribe()
                 .AddTo(_disposable);
             
-            _view.OnMouseUp()
+            _view.OnViewMouseUp()
                 .Do(_ => HandleMouseUp())
                 .Subscribe()
-                .AddTo(_disposable);        
+                .AddTo(_disposable);
         }
 
         private void HandleMouseUp()
@@ -188,5 +188,10 @@ namespace Features.Board.Scripts.Presentation
                 BoardProvider.GetMatrixBuilder(), BoardProvider.GetSaveCurrentMatchWordsAction(), 
                 BoardProvider.GetIsWordInBoardAction(), BoardProvider.GetSaveSelectedMatchWords(), 
                 BoardProvider.GetCheckVictoryStatusAction(), BoardProvider.GetOnVictoryEvent());
+
+        public void Dispose()
+        {
+            _disposable?.Clear();
+        }
     }
 }

@@ -13,15 +13,16 @@ namespace Features.Board.Scripts.Delivery
         [SerializeField] private Transform lettersContainer;
         [SerializeField] private GameObject letterItemPrefab;
         [SerializeField] private GridLayoutGroup layoutGroup;
+
+        private BoardPresenter _presenter;
         private readonly List<LetterItemView> _createdLetters = new();
-        
         private readonly ISubject<Unit> _onAppear = new Subject<Unit>();
         private readonly ISubject<Unit> _onMouseUp = new Subject<Unit>();
         private readonly ISubject<LetterItemView> _onLetterSelected = new Subject<LetterItemView>();
 
         private void Awake()
         {
-            var presenter = BoardPresenter.Present(this);
+            _presenter = BoardPresenter.Present(this);
         }
 
         private void Start()
@@ -74,6 +75,11 @@ namespace Features.Board.Scripts.Delivery
         public IObservable<Unit> OnViewAppear() => _onAppear;
         public IObservable<LetterItemView> OnLetterSelected() => _onLetterSelected;
 
-        public IObservable<Unit> OnMouseUp() => _onMouseUp;
+        public IObservable<Unit> OnViewMouseUp() => _onMouseUp;
+
+        private void OnDestroy()
+        {
+            _presenter.Dispose();
+        }
     }
 }

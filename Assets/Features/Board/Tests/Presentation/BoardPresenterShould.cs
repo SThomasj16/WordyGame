@@ -40,7 +40,7 @@ namespace Features.Board.Tests.Presentation
             _saveSelectedMatchWordsAction = Substitute.For<ISaveSelectedMatchWords>();
             _checkVictoryStatusAction = Substitute.For<ICheckVictoryStatus>();
             _view.OnViewAppear().Returns(_onAppear);
-            _view.OnMouseUp().Returns(_onMouseUp);
+            _view.OnViewMouseUp().Returns(_onMouseUp);
             _presenter = new BoardPresenter(_view, _config,_getWordAction,_buildMatrix,_saveCurrentMatchWordsAction,
                 _isWordInBoard,_saveSelectedMatchWordsAction,_checkVictoryStatusAction,_onVictory);
         }
