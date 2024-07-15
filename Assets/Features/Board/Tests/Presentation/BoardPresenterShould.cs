@@ -22,6 +22,7 @@ namespace Features.Board.Tests.Presentation
         private IGetWord _getWordAction;
         private IBuildMatrix _buildMatrix;
         private ISaveCurrentMatchWords _saveCurrentMatchWordsAction;
+        private IIsWordInBoard _isWordInBoard;
         
         [SetUp]
         public void Setup()
@@ -32,8 +33,9 @@ namespace Features.Board.Tests.Presentation
             _getWordAction = Substitute.For<IGetWord>();
             _buildMatrix = Substitute.For<IBuildMatrix>();
             _saveCurrentMatchWordsAction = Substitute.For<ISaveCurrentMatchWords>();
+            _isWordInBoard = Substitute.For<IIsWordInBoard>();
             _view.OnViewAppear().Returns(_onAppear);
-            _presenter = new BoardPresenter(_view, _config,_getWordAction,_buildMatrix,_saveCurrentMatchWordsAction);
+            _presenter = new BoardPresenter(_view, _config,_getWordAction,_buildMatrix,_saveCurrentMatchWordsAction,_isWordInBoard);
         }
 
         [TestCase(BoardMatrix.FiveByFive)]

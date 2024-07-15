@@ -1,6 +1,7 @@
 ﻿using Features.Board.Scripts.Domain;
 using Features.Board.Scripts.Domain.Actions;
 using Features.Board.Scripts.Infrastructure;
+using Features.Words.Scripts.Domain.Actions;
 using UnityEngine;
 using Utils.Provider.Scripts;
 
@@ -22,5 +23,9 @@ namespace Features.Board.Scripts.Providers
         private static ICurrentMatchWordsRepository GetCurrentMatchWordsRepository() =>
             Provider.GetOrInstanciate(() => new CurrentMatchWordsRepository(), 
                 "BoardProvider.CurrentMatchWordsRepository");
+
+        public static IIsWordInBoard GetIsWordInBoardAction() =>
+            Provider.GetOrInstanciate(() => new IsWordInBoard(GetCurrentMatchWordsRepository()),
+                "BoardProvider.IsWordInBoardAction");
     }
 }
