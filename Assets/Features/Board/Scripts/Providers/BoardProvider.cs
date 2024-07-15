@@ -27,5 +27,13 @@ namespace Features.Board.Scripts.Providers
         public static IIsWordInBoard GetIsWordInBoardAction() =>
             Provider.GetOrInstanciate(() => new IsWordInBoard(GetCurrentMatchWordsRepository()),
                 "BoardProvider.IsWordInBoardAction");
+
+        public static ISaveSelectedMatchWords GetSaveSelectedMatchWords()=>
+            Provider.GetOrInstanciate(() => new SaveSelectedMatchWords(GetCurrentMatchSelectedWordsRepository()),
+                "BoardProvider.GetSaveSelectedMatchWords");
+
+        private static ICurrentMatchSelectedWordsRepository GetCurrentMatchSelectedWordsRepository() =>
+            Provider.GetOrInstanciate(() => new CurrentMatchSelectedWordsRepository(), 
+                "BoardProvider.GetCurrentMatchSelectedWordsRepository");
     }
 }

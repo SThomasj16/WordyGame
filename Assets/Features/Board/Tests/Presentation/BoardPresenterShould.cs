@@ -17,25 +17,31 @@ namespace Features.Board.Tests.Presentation
     {
         private BoardPresenter _presenter;
         private IBoardView _view;
-        private ISubject<Unit> _onAppear;
         private IBoardConfiguration _config;
         private IGetWord _getWordAction;
         private IBuildMatrix _buildMatrix;
         private ISaveCurrentMatchWords _saveCurrentMatchWordsAction;
         private IIsWordInBoard _isWordInBoard;
-        
+        private ISaveSelectedMatchWords _saveSelectedMatchWordsAction;
+        private ISubject<Unit> _onAppear;
+        private ISubject<Unit> _onMouseUp;
+
         [SetUp]
         public void Setup()
         {
             _onAppear = new Subject<Unit>();
+            _onMouseUp = new Subject<Unit>();
             _config = Substitute.For<IBoardConfiguration>();
             _view = Substitute.For<IBoardView>();
             _getWordAction = Substitute.For<IGetWord>();
             _buildMatrix = Substitute.For<IBuildMatrix>();
             _saveCurrentMatchWordsAction = Substitute.For<ISaveCurrentMatchWords>();
             _isWordInBoard = Substitute.For<IIsWordInBoard>();
+            _saveSelectedMatchWordsAction = Substitute.For<ISaveSelectedMatchWords>();
             _view.OnViewAppear().Returns(_onAppear);
-            _presenter = new BoardPresenter(_view, _config,_getWordAction,_buildMatrix,_saveCurrentMatchWordsAction,_isWordInBoard);
+            _view.OnMouseUp().Returns(_onMouseUp);
+            _presenter = new BoardPresenter(_view, _config,_getWordAction,_buildMatrix,_saveCurrentMatchWordsAction,
+                _isWordInBoard,_saveSelectedMatchWordsAction);
         }
 
         [TestCase(BoardMatrix.FiveByFive)]
