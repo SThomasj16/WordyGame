@@ -8,12 +8,13 @@ namespace Features.Board.Scripts.Delivery
     public class LetterItemView : MonoBehaviour
     {
         [SerializeField] private TMP_Text label;
-        [SerializeField] private Subject<Unit> _onSelected = new();
+        private readonly Subject<char> _onSelected = new();
 
         public void Set(char letter)
         {
             label.text = letter.ToString().ToUpper();
         }
 
+        public IObservable<char> OnSelected() => _onSelected;
     }
 }

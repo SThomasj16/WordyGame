@@ -8,7 +8,6 @@ using Features.Words.Scripts.Domain;
 using Features.Words.Scripts.Domain.Actions;
 using Features.Words.Scripts.Providers;
 using UniRx;
-using UnityEngine;
 
 namespace Features.Board.Scripts.Presentation
 {
@@ -51,49 +50,41 @@ namespace Features.Board.Scripts.Presentation
             switch (matrixType)
             {
                 case BoardMatrix.FiveByFive:
-                    _view.SetBoardColumns(5);
+                    _view.SetBoardColumns((int)WordAmountOfCharacters.Five);
                     _view.SetCellSize(120);
-                    var fiveCharacterWords = GetWords(WordAmountOfCharacters.Five,5);
-                    var matrix = _matrixBuilder.Execute(fiveCharacterWords, 5);
-                    SaveWords(fiveCharacterWords);
-                    _view.InstanceLetterItems(matrix);
+                    FillBoardWith(WordAmountOfCharacters.Five, 5);
                     break;
                 case BoardMatrix.SixBySix:
-                    _view.SetBoardColumns(6);
+                    _view.SetBoardColumns((int)WordAmountOfCharacters.Six);
                     _view.SetCellSize(110);
-                    var sixCharacterWords = GetWords(WordAmountOfCharacters.Six,6);
-                    var sixBySixMatrix = _matrixBuilder.Execute(sixCharacterWords, 6);
-                    SaveWords(sixCharacterWords);
-                    _view.InstanceLetterItems(sixBySixMatrix);
+                    FillBoardWith(WordAmountOfCharacters.Six, 6);
                     break;
                 case BoardMatrix.SevenBySeven:
-                    _view.SetBoardColumns(7);
+                    _view.SetBoardColumns((int)WordAmountOfCharacters.Seven);
                     _view.SetCellSize(100);
-                    var sevenCharacterWords = GetWords(WordAmountOfCharacters.Seven,7);
-                    var sevenBySevenMatrix = _matrixBuilder.Execute(sevenCharacterWords, 7);
-                    SaveWords(sevenCharacterWords);
-                    _view.InstanceLetterItems(sevenBySevenMatrix);
+                    FillBoardWith(WordAmountOfCharacters.Seven, 7);
                     break;
                 case BoardMatrix.EightByEight:
-                    _view.SetBoardColumns(8);
+                    _view.SetBoardColumns((int)WordAmountOfCharacters.Eight);
                     _view.SetCellSize(90);
-                    var eightCharacterWords = GetWords(WordAmountOfCharacters.Eight,8);
-                    var eightByEightMatrix = _matrixBuilder.Execute(eightCharacterWords, 8);
-                    SaveWords(eightCharacterWords);
-                    _view.InstanceLetterItems(eightByEightMatrix);
+                    FillBoardWith(WordAmountOfCharacters.Eight, 8);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
+        private void FillBoardWith(WordAmountOfCharacters wordAmountOfCharacters, int amountOfWords)
+        {
+            var fiveCharacterWords = GetWords(wordAmountOfCharacters,amountOfWords);
+            var matrix = _matrixBuilder.Execute(fiveCharacterWords, (int)wordAmountOfCharacters);
+            SaveWords(fiveCharacterWords);
+            _view.InstanceLetterItems(matrix);
+        }
+
         private void SaveWords(List<Word> words)
         {
             _saveCurrentMatchWords.Execute(words);
-            for (int i = 0; i < words.Count; i++)
-            {
-                Debug.Log(words[i].Value);
-            }
         }
 
         private List<Word> GetWords(WordAmountOfCharacters amountOfCharactersLimit, int amount)
