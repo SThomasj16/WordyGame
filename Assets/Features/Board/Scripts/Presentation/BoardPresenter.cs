@@ -50,30 +50,32 @@ namespace Features.Board.Scripts.Presentation
             switch (matrixType)
             {
                 case BoardMatrix.FiveByFive:
-                    _view.SetBoardColumns((int)WordAmountOfCharacters.Five);
-                    _view.SetCellSize(120);
-                    FillBoardWith(WordAmountOfCharacters.Five, 5);
+                    ConfigBoard(WordAmountOfCharacters.Five);
+                    FillBoardWith(WordAmountOfCharacters.Five, (int)matrixType);
                     break;
                 case BoardMatrix.SixBySix:
-                    _view.SetBoardColumns((int)WordAmountOfCharacters.Six);
-                    _view.SetCellSize(110);
-                    FillBoardWith(WordAmountOfCharacters.Six, 6);
+                    ConfigBoard(WordAmountOfCharacters.Six);
+                    FillBoardWith(WordAmountOfCharacters.Six, (int)matrixType);
                     break;
                 case BoardMatrix.SevenBySeven:
-                    _view.SetBoardColumns((int)WordAmountOfCharacters.Seven);
-                    _view.SetCellSize(100);
-                    FillBoardWith(WordAmountOfCharacters.Seven, 7);
+                    ConfigBoard(WordAmountOfCharacters.Seven);
+                    FillBoardWith(WordAmountOfCharacters.Seven, (int)matrixType);
                     break;
                 case BoardMatrix.EightByEight:
-                    _view.SetBoardColumns((int)WordAmountOfCharacters.Eight);
-                    _view.SetCellSize(90);
-                    FillBoardWith(WordAmountOfCharacters.Eight, 8);
+                    ConfigBoard(WordAmountOfCharacters.Eight);
+                    FillBoardWith(WordAmountOfCharacters.Eight, (int)matrixType);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
+        private void ConfigBoard(WordAmountOfCharacters wordAmountOfCharacters)
+        {
+            _view.SetBoardColumns((int)WordAmountOfCharacters.Five);
+            _view.SetCellSize(GetCellSizeFor(wordAmountOfCharacters));
+        }
+        
         private void FillBoardWith(WordAmountOfCharacters wordAmountOfCharacters, int amountOfWords)
         {
             var fiveCharacterWords = GetWords(wordAmountOfCharacters,amountOfWords);
@@ -93,6 +95,25 @@ namespace Features.Board.Scripts.Presentation
             for (var i = 1; i < amount; i++) 
                 words.Add(_getWord.Execute(WordAmountOfCharacters.Three));
             return words;
+        }
+        
+        private int GetCellSizeFor(WordAmountOfCharacters wordAmountOfCharacters)
+        {
+            switch (wordAmountOfCharacters)
+            {
+                case WordAmountOfCharacters.Three:
+                case WordAmountOfCharacters.Four:
+                case WordAmountOfCharacters.Five:
+                    return 120;
+                case WordAmountOfCharacters.Six:
+                    return 110;
+                case WordAmountOfCharacters.Seven:
+                    return 100;
+                case WordAmountOfCharacters.Eight:
+                    return 90;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(wordAmountOfCharacters), wordAmountOfCharacters, null);
+            }
         }
 
         public static BoardPresenter Present(IBoardView view) =>
