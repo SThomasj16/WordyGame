@@ -1,6 +1,4 @@
-using System;
-
-namespace Features.ResultView.Scripts.Delivery
+namespace Features.Result.Scripts.Delivery
 {
     public interface IResultView
     {

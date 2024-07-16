@@ -1,7 +1,7 @@
-﻿using Features.ResultView.Scripts.Presentation;
+﻿using Features.Result.Scripts.Presentation;
 using UnityEngine;
 
-namespace Features.ResultView.Scripts.Delivery
+namespace Features.Result.Scripts.Delivery
 {
     public class ResultView : MonoBehaviour, IResultView
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using Features.Board.Scripts.Providers;
-using Features.ResultView.Scripts.Delivery;
+using Features.Result.Scripts.Delivery;
 using UniRx;
 
-namespace Features.ResultView.Scripts.Presentation
+namespace Features.Result.Scripts.Presentation
 {
     public class ResultViewPresenter
     {
