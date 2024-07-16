@@ -25,6 +25,17 @@ namespace Features.StartScreen.Scripts.Presentation
                 .Do(HandleDropdownValueChanged)
                 .Subscribe()
                 .AddTo(_disposable);
+
+            _view.OnStartButtonPressed()
+                .Do(_ => HandleStartButtonPressed())
+                .Subscribe()
+                .AddTo(_disposable);
+        }
+
+        private void HandleStartButtonPressed()
+        {
+            _view.Hide();
+            _view.DisplayBoard();
         }
 
         private void HandleDropdownValueChanged(int value)
@@ -54,5 +65,10 @@ namespace Features.StartScreen.Scripts.Presentation
 
         public static StartScreenPresenter Present(IStartScreenView view) => 
             new(view, BoardProvider.GetBoardConfig());
+
+        public void Dispose()
+        {
+            _disposable?.Clear();
+        }
     }
 }

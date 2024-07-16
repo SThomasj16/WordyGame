@@ -171,13 +171,13 @@ namespace Features.Board.Scripts.Presentation
                 case WordAmountOfCharacters.Three:
                 case WordAmountOfCharacters.Four:
                 case WordAmountOfCharacters.Five:
-                    return 120;
+                    return 180;
                 case WordAmountOfCharacters.Six:
-                    return 110;
+                    return 160;
                 case WordAmountOfCharacters.Seven:
-                    return 100;
+                    return 140;
                 case WordAmountOfCharacters.Eight:
-                    return 90;
+                    return 120;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(wordAmountOfCharacters), wordAmountOfCharacters, null);
             }

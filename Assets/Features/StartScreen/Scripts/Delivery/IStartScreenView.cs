@@ -1,4 +1,5 @@
 using System;
+using UniRx;
 
 namespace Features.StartScreen.Scripts.Delivery
 {
@@ -6,5 +7,8 @@ namespace Features.StartScreen.Scripts.Delivery
     {
         IObservable<int> OnDropdownValueChanged();
         void ShowPlayButton();
+        IObservable<Unit> OnStartButtonPressed();
+        void Hide();
+        void DisplayBoard();
     }
 }

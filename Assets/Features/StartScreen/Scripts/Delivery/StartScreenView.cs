@@ -11,6 +11,7 @@ namespace Features.StartScreen.Scripts.Delivery
     {
         [SerializeField] private TMP_Dropdown dropdown;
         [SerializeField] private Button playButton;
+        [SerializeField] private GameObject board;
         private readonly Subject<int> _onDropdownValueChanged = new();
         private StartScreenPresenter _presenter;
         private void Awake()
@@ -27,11 +28,26 @@ namespace Features.StartScreen.Scripts.Delivery
         {
             _onDropdownValueChanged.OnNext(value);
         }
-
-        public IObservable<int> OnDropdownValueChanged() => _onDropdownValueChanged;
         public void ShowPlayButton()
         {
             playButton.gameObject.SetActive(true);
+        }
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void DisplayBoard()
+        {
+            board.SetActive(true);
+        }
+        public IObservable<int> OnDropdownValueChanged() => _onDropdownValueChanged;
+        public IObservable<Unit> OnStartButtonPressed() => playButton.OnClickAsObservable();
+      
+
+        public void OnDestroy()
+        {
+            _presenter.Dispose();
         }
     }
 }
