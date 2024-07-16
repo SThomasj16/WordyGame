@@ -24,12 +24,15 @@ namespace Features.Board.Scripts.Presentation
         private readonly ISaveSelectedMatchWords _saveSelectedMatchWords;
         private readonly ICheckVictoryStatus _checkVictoryStatus;
         private readonly ISubject<Unit> _onVictoryEvent;
+        private readonly IResetMatchRepositories _resetMatchRepositories;
         private readonly CompositeDisposable _disposable;
         private readonly List<LetterItemView> _wordItemsSelected = new();
+
         public BoardPresenter(IBoardView view, IBoardConfiguration boardConfig, IGetWord getWord,
             IBuildMatrix matrixBuilder, ISaveCurrentMatchWords saveCurrentMatchWords,
             IIsWordInBoard isWordInBoard, ISaveSelectedMatchWords saveSelectedMatchWords,
-            ICheckVictoryStatus checkVictoryStatus, ISubject<Unit> onVictoryEvent, IObservable<Unit> onResetBoardEvent)
+            ICheckVictoryStatus checkVictoryStatus, ISubject<Unit> onVictoryEvent, IObservable<Unit> onResetBoardEvent,
+            IResetMatchRepositories resetMatchRepositories)
         {
             _view = view;
             _boardConfig = boardConfig;
@@ -40,6 +43,7 @@ namespace Features.Board.Scripts.Presentation
             _saveSelectedMatchWords = saveSelectedMatchWords;
             _checkVictoryStatus = checkVictoryStatus;
             _onVictoryEvent = onVictoryEvent;
+            _resetMatchRepositories = resetMatchRepositories;
             _disposable = new CompositeDisposable();
             SubscribeToViewEvents();
             SubscribeToResetBoardEvent(onResetBoardEvent);
@@ -64,23 +68,24 @@ namespace Features.Board.Scripts.Presentation
                 .Do(HandleLetterSelected)
                 .Subscribe()
                 .AddTo(_disposable);
-            
+
             _view.OnViewMouseUp()
                 .Do(_ => HandleMouseUp())
                 .Subscribe()
                 .AddTo(_disposable);
         }
-        
+
         private void HandleBoardReset()
         {
             _view.ClearBoard();
+            _resetMatchRepositories.Execute();
             PopulateBoard();
         }
 
         private void HandleMouseUp()
         {
-            if(IsAVictory()) return;
-            var word =_wordItemsSelected.Select(word => word.GetLetter()).ToArray();
+            if (IsAVictory()) return;
+            var word = _wordItemsSelected.Select(word => word.GetLetter()).ToArray();
             var selectedWord = new Word(new string(word));
             Array.Reverse(word);
             var invertedWord = new Word(new string(word));
@@ -98,7 +103,7 @@ namespace Features.Board.Scripts.Presentation
                 _wordItemsSelected.ForEach(item => item.Deselect());
 
             _wordItemsSelected.Clear();
-            if(IsAVictory())
+            if (IsAVictory())
                 _onVictoryEvent.OnNext(Unit.Default);
         }
 
@@ -106,6 +111,8 @@ namespace Features.Board.Scripts.Presentation
 
         private void HandleLetterSelected(LetterItemView letterItem)
         {
+            if (IsAVictory()) return;
+
             _wordItemsSelected.Add(letterItem);
         }
 
@@ -142,14 +149,14 @@ namespace Features.Board.Scripts.Presentation
 
         private void ConfigBoard(WordAmountOfCharacters wordAmountOfCharacters)
         {
-            _view.SetBoardColumns((int)wordAmountOfCharacters);
+            _view.SetBoardColumns((int) wordAmountOfCharacters);
             _view.SetCellSize(GetCellSizeFor(wordAmountOfCharacters));
         }
-        
+
         private void FillBoardWithWords(WordAmountOfCharacters wordAmountOfCharacters)
         {
-            var selectedWords = GetWords(wordAmountOfCharacters,(int)wordAmountOfCharacters);
-            var matrix = _matrixBuilder.Execute(selectedWords, (int)wordAmountOfCharacters);
+            var selectedWords = GetWords(wordAmountOfCharacters, (int) wordAmountOfCharacters);
+            var matrix = _matrixBuilder.Execute(selectedWords, (int) wordAmountOfCharacters);
             SaveWords(selectedWords);
             DebugSelectedWords(selectedWords);
             _view.InstanceLetterItems(matrix);
@@ -172,11 +179,11 @@ namespace Features.Board.Scripts.Presentation
         private List<Word> GetWords(WordAmountOfCharacters amountOfCharactersLimit, int amount)
         {
             var words = new List<Word> {_getWord.Execute(amountOfCharactersLimit)};
-            for (var i = 1; i < amount; i++) 
+            for (var i = 1; i < amount; i++)
                 words.Add(_getWord.Execute(WordAmountOfCharacters.Three));
             return words;
         }
-        
+
         private int GetCellSizeFor(WordAmountOfCharacters wordAmountOfCharacters)
         {
             switch (wordAmountOfCharacters)
@@ -198,10 +205,10 @@ namespace Features.Board.Scripts.Presentation
 
         public static BoardPresenter Present(IBoardView view) =>
             new(view, BoardProvider.GetBoardConfig(), WordsProvider.GetWordAction(),
-                BoardProvider.GetMatrixBuilder(), BoardProvider.GetSaveCurrentMatchWordsAction(), 
-                BoardProvider.GetIsWordInBoardAction(), BoardProvider.GetSaveSelectedMatchWords(), 
-                BoardProvider.GetCheckVictoryStatusAction(), BoardProvider.GetOnVictoryEvent(), 
-                BoardProvider.GetOnResetBoardEvent());
+                BoardProvider.GetMatrixBuilder(), BoardProvider.GetSaveCurrentMatchWordsAction(),
+                BoardProvider.GetIsWordInBoardAction(), BoardProvider.GetSaveSelectedMatchWords(),
+                BoardProvider.GetCheckVictoryStatusAction(), BoardProvider.GetOnVictoryEvent(),
+                BoardProvider.GetOnResetBoardEvent(), BoardProvider.GetResetMatchRepositoriesAction());
 
         public void Dispose()
         {

@@ -12,5 +12,9 @@ namespace Features.Board.Scripts.Infrastructure
         }
 
         public List<Word> Get() => _words;
+        public void Clear()
+        {
+            _words.Clear();
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace Features.Board.Tests.Presentation
         private IIsWordInBoard _isWordInBoard;
         private ISaveSelectedMatchWords _saveSelectedMatchWordsAction;
         private ICheckVictoryStatus _checkVictoryStatusAction;
+        private IResetMatchRepositories _resetMatchRepositories;
         private ISubject<Unit> _onAppear;
         private ISubject<Unit> _onMouseUp;
         private ISubject<Unit> _onVictory;
@@ -41,10 +42,12 @@ namespace Features.Board.Tests.Presentation
             _isWordInBoard = Substitute.For<IIsWordInBoard>();
             _saveSelectedMatchWordsAction = Substitute.For<ISaveSelectedMatchWords>();
             _checkVictoryStatusAction = Substitute.For<ICheckVictoryStatus>();
+            _resetMatchRepositories = Substitute.For<IResetMatchRepositories>();
             _view.OnViewAppear().Returns(_onAppear);
             _view.OnViewMouseUp().Returns(_onMouseUp);
-            _presenter = new BoardPresenter(_view, _config,_getWordAction,_buildMatrix,_saveCurrentMatchWordsAction,
-                _isWordInBoard,_saveSelectedMatchWordsAction,_checkVictoryStatusAction,_onVictory,_onResetBoard);
+            _presenter = new BoardPresenter(_view, _config, _getWordAction, _buildMatrix, _saveCurrentMatchWordsAction,
+                _isWordInBoard, _saveSelectedMatchWordsAction, _checkVictoryStatusAction, _onVictory, _onResetBoard,
+                _resetMatchRepositories);
         }
 
         [TestCase(BoardMatrix.FiveByFive)]
@@ -57,23 +60,23 @@ namespace Features.Board.Tests.Presentation
             WhenViewAppears();
             ThenPopulateBoard();
         }
-        
-        
-        [TestCase(BoardMatrix.FiveByFive,5)]
-        [TestCase(BoardMatrix.SixBySix,6)]
-        [TestCase(BoardMatrix.SevenBySeven,7)]
-        [TestCase(BoardMatrix.EightByEight,8)]
+
+
+        [TestCase(BoardMatrix.FiveByFive, 5)]
+        [TestCase(BoardMatrix.SixBySix, 6)]
+        [TestCase(BoardMatrix.SevenBySeven, 7)]
+        [TestCase(BoardMatrix.EightByEight, 8)]
         public void SetBoardColumnsOnViewAppear(BoardMatrix matrix, int expected)
         {
             GivenABoardMatrixConfig(matrix);
             WhenViewAppears();
             ThenSetBoardColumns(expected);
         }
-        
-        [TestCase(BoardMatrix.FiveByFive,120)]
-        [TestCase(BoardMatrix.SixBySix,110)]
-        [TestCase(BoardMatrix.SevenBySeven,100)]
-        [TestCase(BoardMatrix.EightByEight,90)]
+
+        [TestCase(BoardMatrix.FiveByFive, 120)]
+        [TestCase(BoardMatrix.SixBySix, 110)]
+        [TestCase(BoardMatrix.SevenBySeven, 100)]
+        [TestCase(BoardMatrix.EightByEight, 90)]
         public void SetCellSizeOnViewAppear(BoardMatrix matrix, int expected)
         {
             GivenABoardMatrixConfig(matrix);
@@ -85,22 +88,22 @@ namespace Features.Board.Tests.Presentation
         {
             _config.GetMatrix().Returns(boardMatrix);
         }
-        
+
         private void WhenViewAppears()
         {
             _onAppear.OnNext(Unit.Default);
         }
-        
+
         private void ThenPopulateBoard()
         {
             _view.Received(1).InstanceLetterItems(Arg.Any<List<char>>());
         }
-        
+
         private void ThenSetBoardColumns(int amountOfColumns)
         {
             _view.Received(1).SetBoardColumns(amountOfColumns);
         }
-        
+
         private void ThenSetCellSize(int expected)
         {
             _view.Received(1).SetCellSize(expected);

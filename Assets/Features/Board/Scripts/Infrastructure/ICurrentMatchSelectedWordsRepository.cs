@@ -7,5 +7,6 @@ namespace Features.Board.Scripts.Infrastructure
     {
         void Add(Word word);
         List<Word> Get();
+        void Clear();
     }
 }

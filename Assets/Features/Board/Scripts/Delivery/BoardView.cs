@@ -19,7 +19,7 @@ namespace Features.Board.Scripts.Delivery
         private readonly ISubject<Unit> _onAppear = new Subject<Unit>();
         private readonly ISubject<Unit> _onMouseUp = new Subject<Unit>();
         private readonly ISubject<LetterItemView> _onLetterSelected = new Subject<LetterItemView>();
-
+        private IDisposable _letterEmissionDisposable;
         private void Awake()
         {
             _presenter = BoardPresenter.Present(this);
@@ -55,11 +55,10 @@ namespace Features.Board.Scripts.Delivery
 
         private void SubscribeToLetterItemEmissions()
         {
-            _createdLetters.Select(letter => letter.OnSelected())
+            _letterEmissionDisposable =_createdLetters.Select(letter => letter.OnSelected())
                 .Merge()
                 .Do(_onLetterSelected.OnNext)
-                .Subscribe()
-                .AddTo(this);
+                .Subscribe();
         }
         
         public void SetBoardColumns(int matrix)
@@ -78,10 +77,13 @@ namespace Features.Board.Scripts.Delivery
         public IObservable<Unit> OnViewMouseUp() => _onMouseUp;
         public void ClearBoard()
         {
+            _letterEmissionDisposable?.Dispose();
+
             foreach (var letter in _createdLetters)
             {
                 Destroy(letter.gameObject);
             }
+            _createdLetters.Clear();
         }
 
         private void OnDestroy()
