@@ -29,7 +29,7 @@ namespace Features.Board.Scripts.Presentation
         public BoardPresenter(IBoardView view, IBoardConfiguration boardConfig, IGetWord getWord,
             IBuildMatrix matrixBuilder, ISaveCurrentMatchWords saveCurrentMatchWords,
             IIsWordInBoard isWordInBoard, ISaveSelectedMatchWords saveSelectedMatchWords,
-            ICheckVictoryStatus checkVictoryStatus, ISubject<Unit> onVictoryEvent)
+            ICheckVictoryStatus checkVictoryStatus, ISubject<Unit> onVictoryEvent, IObservable<Unit> onResetBoardEvent)
         {
             _view = view;
             _boardConfig = boardConfig;
@@ -42,6 +42,15 @@ namespace Features.Board.Scripts.Presentation
             _onVictoryEvent = onVictoryEvent;
             _disposable = new CompositeDisposable();
             SubscribeToViewEvents();
+            SubscribeToResetBoardEvent(onResetBoardEvent);
+        }
+
+        private void SubscribeToResetBoardEvent(IObservable<Unit> onResetBoardEvent)
+        {
+            onResetBoardEvent
+                .Do(_ => HandleBoardReset())
+                .Subscribe()
+                .AddTo(_disposable);
         }
 
         private void SubscribeToViewEvents()
@@ -61,9 +70,16 @@ namespace Features.Board.Scripts.Presentation
                 .Subscribe()
                 .AddTo(_disposable);
         }
+        
+        private void HandleBoardReset()
+        {
+            _view.ClearBoard();
+            PopulateBoard();
+        }
 
         private void HandleMouseUp()
         {
+            if(IsAVictory()) return;
             var word =_wordItemsSelected.Select(word => word.GetLetter()).ToArray();
             var selectedWord = new Word(new string(word));
             Array.Reverse(word);
@@ -86,10 +102,7 @@ namespace Features.Board.Scripts.Presentation
                 _onVictoryEvent.OnNext(Unit.Default);
         }
 
-        private bool IsAVictory()
-        {
-            return _checkVictoryStatus.Execute();
-        }
+        private bool IsAVictory() => _checkVictoryStatus.Execute();
 
         private void HandleLetterSelected(LetterItemView letterItem)
         {
@@ -187,7 +200,8 @@ namespace Features.Board.Scripts.Presentation
             new(view, BoardProvider.GetBoardConfig(), WordsProvider.GetWordAction(),
                 BoardProvider.GetMatrixBuilder(), BoardProvider.GetSaveCurrentMatchWordsAction(), 
                 BoardProvider.GetIsWordInBoardAction(), BoardProvider.GetSaveSelectedMatchWords(), 
-                BoardProvider.GetCheckVictoryStatusAction(), BoardProvider.GetOnVictoryEvent());
+                BoardProvider.GetCheckVictoryStatusAction(), BoardProvider.GetOnVictoryEvent(), 
+                BoardProvider.GetOnResetBoardEvent());
 
         public void Dispose()
         {

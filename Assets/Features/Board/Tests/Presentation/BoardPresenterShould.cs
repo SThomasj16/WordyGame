@@ -24,6 +24,7 @@ namespace Features.Board.Tests.Presentation
         private ISubject<Unit> _onAppear;
         private ISubject<Unit> _onMouseUp;
         private ISubject<Unit> _onVictory;
+        private ISubject<Unit> _onResetBoard;
 
         [SetUp]
         public void Setup()
@@ -31,6 +32,7 @@ namespace Features.Board.Tests.Presentation
             _onAppear = new Subject<Unit>();
             _onMouseUp = new Subject<Unit>();
             _onVictory = new Subject<Unit>();
+            _onResetBoard = new Subject<Unit>();
             _config = Substitute.For<IBoardConfiguration>();
             _view = Substitute.For<IBoardView>();
             _getWordAction = Substitute.For<IGetWord>();
@@ -42,7 +44,7 @@ namespace Features.Board.Tests.Presentation
             _view.OnViewAppear().Returns(_onAppear);
             _view.OnViewMouseUp().Returns(_onMouseUp);
             _presenter = new BoardPresenter(_view, _config,_getWordAction,_buildMatrix,_saveCurrentMatchWordsAction,
-                _isWordInBoard,_saveSelectedMatchWordsAction,_checkVictoryStatusAction,_onVictory);
+                _isWordInBoard,_saveSelectedMatchWordsAction,_checkVictoryStatusAction,_onVictory,_onResetBoard);
         }
 
         [TestCase(BoardMatrix.FiveByFive)]

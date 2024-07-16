@@ -12,5 +12,6 @@ namespace Features.Board.Scripts.Delivery
         void SetCellSize(int expected);
         IObservable<LetterItemView> OnLetterSelected();
         IObservable<Unit> OnViewMouseUp();
+        void ClearBoard();
     }
 }

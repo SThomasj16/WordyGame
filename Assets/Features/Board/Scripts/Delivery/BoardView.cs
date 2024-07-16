@@ -76,6 +76,13 @@ namespace Features.Board.Scripts.Delivery
         public IObservable<LetterItemView> OnLetterSelected() => _onLetterSelected;
 
         public IObservable<Unit> OnViewMouseUp() => _onMouseUp;
+        public void ClearBoard()
+        {
+            foreach (var letter in _createdLetters)
+            {
+                Destroy(letter.gameObject);
+            }
+        }
 
         private void OnDestroy()
         {
